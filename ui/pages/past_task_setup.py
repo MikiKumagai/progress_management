@@ -3,21 +3,6 @@ import sqlite3
 from tkinter import messagebox
 import sys
 
-# ログファイルを開く（追記モード）
-log_file = open("app_log.txt", "a")
-
-def log_print(*args, **kwargs):
-    print(*args, **kwargs)
-    print(*args, **kwargs, file=log_file)
-    log_file.flush()
-
-# 以降、printの代わりにlog_printを使う
-log_print("アプリ起動しました")
-
-# SQLiteのDBファイルを作成・接続
-conn = sqlite3.connect("progress.db")
-cur = conn.cursor()
-
 # 学習内容をDBに追加する関数
 def add_task():
     task = task.get()
@@ -36,24 +21,24 @@ def update_listbox():
     for row in cur.fetchall():
         listbox.insert(tk.END, f"{row[0]}: {row[1]}")
 
-# GUI作成
-root = tk.Tk()
-root.title("学習進捗管理")
-root.geometry("1400x900")
-
-title = tk.Label(root, text="進捗確認")
+title = tk.Label(root, text="タスク登録")
 title.pack()
 
 # 入力欄
-label = tk.Label(root, text="task")
+label = tk.Label(root, text="name")
 label.pack()
-task = tk.Entry(root, width=40)
-task.pack(pady=10)
+name = tk.Entry(root, width=40)
+name.pack(pady=10)
 
-label = tk.Label(root, text="entry")
+label = tk.Label(root, text="progress_unit")
 label.pack()
-entry = tk.Entry(root, width=40)
-entry.pack(pady=10)
+progress_unit = tk.Entry(root, width=40)
+progress_unit.pack(pady=10)
+
+label = tk.Label(root, text="total_count")
+label.pack()
+total_count = tk.Entry(root, width=40)
+total_count.pack(pady=10)
 
 # ボタン
 add_button = tk.Button(root, text="submit", command=add_task)
@@ -66,8 +51,3 @@ listbox.pack(pady=10)
 # 最初に表示更新
 update_listbox()
 
-root.mainloop()
-
-# アプリ終了時に接続を閉じる（必要なら）
-conn.close()
-log_print("アプリ終了しました")

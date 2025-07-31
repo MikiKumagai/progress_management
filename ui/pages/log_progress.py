@@ -44,34 +44,6 @@ class LogProgressPage(tk.Frame):
         self.progress_type_label = ttk.Label(self, text="")
         self.progress_type_label.grid(row=3, column=1, columnspan=4, padx=10, pady=5, sticky="w")
 
-        # # タスク選択
-        # task_names = task_service.get_task_names()
-        # label = ttk.Label(self, text="タスク選択")
-        # label.grid(row=1, column=0, padx=10, pady=5, sticky="w")
-        # combo = ttk.Combobox(self, values=task_names, state="")
-        # combo.current(0)
-        # combo.grid(row=1, column=1, columnspan=4, padx=10, pady=5, sticky="ew")
-
-        # # タスク切り替えボタン
-        # add_button = tk.Button(self, text="切替", command=)
-        # add_button.grid(row=1, column=4, padx=10, pady=5, sticky="ew")
-
-        # # 進捗単位
-        # progress_unit = task_service.get_progress_unit(task_id)
-        # label1 = ttk.Label(self, text="進捗単位")
-        # label1.grid(row=2, column=0, padx=10, pady=5, sticky="w")
-        # combo1 = ttk.Label(self, text=progress_unit)
-        # combo1.current(0)
-        # combo1.grid(row=2, column=1, columnspan=4, padx=10, pady=5, sticky="ew")
-
-        # # 入力タイプ
-        # progress_type = task_service.get_progress_type(task_id)
-        # label2 = ttk.Label(self, text="入力タイプ")
-        # label2.grid(row=3, column=0, padx=10, pady=5, sticky="w")
-        # combo2 = ttk.Label(self, text=progress_type)
-        # combo2.current(0)
-        # combo2.grid(row=3, column=1, columnspan=4, padx=10, pady=5, sticky="ew")
-
         # 進捗入力
         progress_value = tk.Entry(self, width=40)
         progress_value.grid(row=4, column=0, columnspan=4, padx=10, pady=5, sticky="ew")
@@ -102,7 +74,7 @@ class LogProgressPage(tk.Frame):
 
         self.progress_unit_label.config(text=progress_unit)
         self.progress_type_label.config(text=progress_type)
-        
+
     def on_submit(self):
         progress_service.add_progress()
         input_value = self.entry.get()

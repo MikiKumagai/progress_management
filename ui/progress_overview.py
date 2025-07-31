@@ -4,7 +4,7 @@ from tkinter import messagebox
 import sys
 
 # ログファイルを開く（追記モード）
-log_file = open("log/app_log.txt", "a")
+log_file = open("app_log.txt", "a")
 
 def log_print(*args, **kwargs):
     print(*args, **kwargs)
@@ -15,7 +15,7 @@ def log_print(*args, **kwargs):
 log_print("アプリ起動しました")
 
 # SQLiteのDBファイルを作成・接続
-conn = sqlite3.connect("db/progress.db")
+conn = sqlite3.connect("progress.db")
 cur = conn.cursor()
 
 # 学習内容をDBに追加する関数
@@ -40,6 +40,9 @@ def update_listbox():
 root = tk.Tk()
 root.title("学習進捗管理")
 root.geometry("1400x900")
+
+title = tk.Label(root, text="進捗確認")
+title.pack()
 
 # 入力欄
 label = tk.Label(root, text="task")

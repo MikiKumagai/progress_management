@@ -4,7 +4,7 @@ from tkinter import messagebox
 import sys
 
 # ログファイルを開く（追記モード）
-log_file = open("app_log.txt", "a")
+log_file = open("log/app_log.txt", "a")
 
 def log_print(*args, **kwargs):
     print(*args, **kwargs)
@@ -15,7 +15,7 @@ def log_print(*args, **kwargs):
 log_print("アプリ起動しました")
 
 # SQLiteのDBファイルを作成・接続
-conn = sqlite3.connect("progress.db")
+conn = sqlite3.connect("db/progress.db")
 cur = conn.cursor()
 
 # 学習内容をDBに追加する関数
@@ -31,37 +31,44 @@ def add_task():
 
 # 登録された内容を表示する関数
 def update_listbox():
-    listbox.delete(0, tk.END)
-    cur.execute("SELECT id, task FROM progress ORDER BY id DESC")
+    cur.execute("SELECT name FROM tasks ORDER BY id DESC")
     for row in cur.fetchall():
-        listbox.insert(tk.END, f"{row[0]}: {row[1]}")
+        options.add(row[0])
+        
+# 選択された値を表示する関数
+def show_selection():
+    print("選択された値:", combo.get())
 
 # GUI作成
 root = tk.Tk()
 root.title("学習進捗管理")
 root.geometry("1400x900")
 
-# 入力欄
-label = tk.Label(root, text="task")
-label.pack()
-task = tk.Entry(root, width=40)
-task.pack(pady=10)
+# 進捗記録ページ
+title = tk.Label(root, text="進捗記録")
+title.pack()
 
-label = tk.Label(root, text="entry")
+# Comboboxの作成
+options = []
+combo = ttk.Combobox(root, values=options, state="readonly")
+combo.current(0)
+combo.pack()
+btn = tk.Button(root, text="確認", command=show_selection)
+btn.pack()
+
+# 入力欄
+label = tk.Label(root, text="progress_value")
 label.pack()
-entry = tk.Entry(root, width=40)
-entry.pack(pady=10)
+progress_value = tk.Entry(root, width=40)
+progress_value.pack(pady=10)
 
 # ボタン
 add_button = tk.Button(root, text="submit", command=add_task)
 add_button.pack()
 
-# 登録された内容表示
-listbox = tk.Listbox(root, width=50, height=10)
-listbox.pack(pady=10)
-
 # 最初に表示更新
 update_listbox()
+get_task_name()
 
 root.mainloop()
 

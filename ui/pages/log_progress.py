@@ -11,7 +11,7 @@ class LogProgressPage(tk.Frame):
         title_label = ttk.Label(self, text="進捗記録", font=("Helvetica", 16))
         title_label.pack(pady=10)
 
-        # Comboboxの作成
+        # タスク選択
         options = []
         combo = ttk.Combobox(root, values=options, state="readonly")
         combo.current(0)
@@ -19,18 +19,22 @@ class LogProgressPage(tk.Frame):
         btn = tk.Button(root, text="確認", command=show_selection)
         btn.pack()
 
-        # 入力欄
+        # 入力形式
+
+        # 入力タイプ（累計か今日の分だけか）
+
+        # 進捗入力
         label = tk.Label(root, text="progress_value")
         label.pack()
         progress_value = tk.Entry(root, width=40)
         progress_value.pack(pady=10)
 
-        # ボタン
+        # 登録ボタン
         add_button = tk.Button(root, text="submit", command=progress_service.add_progress)
         add_button.pack()
 
-        # ボタン
-        nav_task_setup = tk.Button(root, text="submit", command=progress_service.add_progress)
+        # 遷移ボタン
+        nav_task_setup = tk.Button(root, text="新規登録", command=)
         nav_task_setup.pack()
 
     def on_submit(self):

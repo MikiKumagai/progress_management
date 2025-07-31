@@ -4,15 +4,23 @@ CREATE TABLE progress_units (
     name TEXT NOT NULL
 );
 
+-- 進捗形式マスタ
+CREATE TABLE progress_types (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
+
 -- 学習タスク
 CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     progress_unit_id INTEGER NOT NULL,
+    progress_type_id INTEGER NOT NULL,
     total_count INTEGER NOT NULL,
     progress INTEGER NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (progress_unit_id) REFERENCES progress_units (id)
+    FOREIGN KEY (progress_type_id) REFERENCES progress_types (id)
 );
 
 -- 進捗記録

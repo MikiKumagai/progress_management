@@ -45,17 +45,33 @@ class TaskSetupPage(tk.Frame):
         add_button = tk.Button(self, text="登録", command=self.on_submit)
         add_button.grid(row=5, column=5, padx=5, pady=5, sticky="nsew")
 
+        # バリデーションメッセージ
+        self.name_error_label = tk.Label(self, text="", fg="red")
+        self.name_error_label.grid(row=6, column=0, columnspan=6, padx=5, pady=5, sticky="e")
+        self.count_error_label = tk.Label(self, text="", fg="red")
+        self.count_error_label.grid(row=6, column=0, columnspan=6, padx=5, pady=5, sticky="e")
+
         # 遷移ボタン
         nav_log_progress = tk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
-        nav_log_progress.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
+        nav_log_progress.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
+
 
     def on_submit(self):
         name = self.name.get()
+        if len(name) >= 10:
+            self.name_error_label.config(text="タスク名は10文字未満で入力してください")
+            return
+        else:
+            self.name_error_label.config(text="")  # エラー解除
         selected_progress_unit = self.progress_unit.current()
         progress_unit_id = self.progress_units[selected_progress_unit][0]
         selected_progress_type = self.progress_type.current()
         progress_type_id = self.progress_types[selected_progress_type][0]
-        total_count = self.total_count.get()
+        try:
+            total_count = int(self.total_count.get())
+        except ValueError:
+            self.count_error_label.config(text="ゴールは数値を入力してください")
+            return
         task_service.add_task(name, progress_unit_id, progress_type_id, total_count)
         self.name.delete(0, tk.END)
         self.progress_unit.current(0)

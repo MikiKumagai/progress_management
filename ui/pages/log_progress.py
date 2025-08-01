@@ -43,13 +43,17 @@ class LogProgressPage(tk.Frame):
         add_button = ttk.Button(self, text="登録", command=self.on_submit)
         add_button.grid(row=3, column=5, padx=5, pady=5, sticky="nsew")
 
+        # バリデーションメッセージ
+        self.error_label = tk.Label(self, text="", fg="red")
+        self.error_label.grid(row=4, column=0, columnspan=6, padx=5, pady=5, sticky="e")
+
         # 遷移ボタン
         nav_task_setup = ttk.Button(self, text="新規登録", command=lambda: controller.show_frame("TaskSetupPage"))
-        nav_task_setup.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_progress_overview = ttk.Button(self, text="進捗確認", command=lambda: controller.show_frame("ProgressOverviewPage"))
-        nav_progress_overview.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
+        nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
 
         self.after(0, self.set_default_task)
 
@@ -94,7 +98,11 @@ class LogProgressPage(tk.Frame):
     def on_submit(self):
         selected_index = self.task_combo.current()
         task_id = self.tasks[selected_index][0]
-        progress_value = int(self.progress_value.get())
+        try:
+            progress_value = int(self.progress_value.get())
+        except ValueError:
+            self.error_label.config(text="進捗は数値を入力してください")
+            return
         progress_type = self.progress_type.cget("text")
         progress_service.add_progress(task_id, progress_value, progress_type)
         self.progress_value.delete(0, tk.END)

@@ -63,6 +63,7 @@ class LogProgressPage(tk.Frame):
 
         self.after(0, self.set_default_task)
 
+    # TODO: リフレッシュして新しいタスクがリストにちゃんと入るようにする
     def set_default_task(self):
         if not self.tasks:
             return

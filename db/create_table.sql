@@ -10,6 +10,7 @@ CREATE TABLE progress_types (
     name TEXT NOT NULL
 );
 
+-- TODO: 名前にユニーク制約つける
 -- 学習タスク
 CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

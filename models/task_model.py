@@ -12,10 +12,13 @@ def select_total_count(task_id):
     return total
 
 # 進捗記録ページ：進捗累計を更新
-def update_task_progress(task_id, new_progress):
+def update_task_progress(task_id, today_progress):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("UPDATE tasks SET progress = ? WHERE id = ?", (new_progress, task_id))
+    # TODO: today_progressとprogress足した値でUPDATE
+    # TODO: これだと日に2回送られてきたときどうしよかな
+    # TODO: 累計で送られてきたらそのまま入れよかな
+    cur.execute("UPDATE tasks SET progress = ? WHERE id = ?", (today_progress, task_id))
     conn.commit()
     conn.close()
 

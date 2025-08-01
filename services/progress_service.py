@@ -10,6 +10,4 @@ def add_progress(task_id, progress_value, progress_type):
     progress_model.insert_progress(task_id, progress_value)
 
     # 2. 合計進捗を更新
-    # TODO: これ要らない。progress_value+今の値したらいい
-    current = progress_model.get_total_progress_for_task(task_id)
-    task_model.update_task_progress(task_id, current)
+    task_model.update_task_progress(task_id, progress_value)

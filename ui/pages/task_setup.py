@@ -35,6 +35,7 @@ class TaskSetupPage(tk.Frame):
         self.progress_type.current(0)
         self.progress_type.grid(row=3, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
 
+        # TODO: validation
         # ゴール
         total_count_label = tk.Label(self, text="ゴール")
         total_count_label.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
@@ -57,4 +58,4 @@ class TaskSetupPage(tk.Frame):
         progress_type_id = self.progress_types[selected_progress_type][0]
         total_count = self.total_count.get()
         task_service.add_task(name, progress_unit_id, progress_type_id, total_count)
-        # TODO: 登録できたらできたと分かるように
+        # TODO: Entry空にする、完了通知出す

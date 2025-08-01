@@ -39,6 +39,7 @@ class LogProgressPage(tk.Frame):
         self.progress_type = ttk.Label(self, text="")
         self.progress_type.grid(row=3, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
 
+        # TODO: validation
         # 進捗入力
         progress_type_label = ttk.Label(self, text="進捗入力")
         progress_type_label.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
@@ -91,4 +92,3 @@ class LogProgressPage(tk.Frame):
         progress_type = self.progress_type
         progress_service.add_progress(task_id, progress_value, progress_type)
         # TODO: Entry空にする、完了通知出す
-        # TODO: データ更新？確認画面に反映されないからデータ取得タイミングを考える。遷移時がいい気がする。

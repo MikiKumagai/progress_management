@@ -18,7 +18,7 @@ class ProgressOverviewPage(tk.Frame):
         self.tree.heading("progress_value", text="進捗")
         self.tree.heading("progress_date", text="更新日")
 
-        # カラム幅（必要に応じて調整してOK）
+        # カラム幅
         self.tree.column("task_name", width=100, anchor="center")
         self.tree.column("progress_value", width=100, anchor="center")
         self.tree.column("progress_date", width=150, anchor="center")

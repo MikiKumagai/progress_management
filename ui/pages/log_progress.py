@@ -94,8 +94,8 @@ class LogProgressPage(tk.Frame):
     def on_submit(self):
         selected_index = self.task_combo.current()
         task_id = self.tasks[selected_index][0]
-        progress_value = self.progress_value.get()
-        progress_type = self.progress_type
+        progress_value = int(self.progress_value.get())
+        progress_type = self.progress_type.cget("text")
         progress_service.add_progress(task_id, progress_value, progress_type)
         self.progress_value.delete(0, tk.END)
        

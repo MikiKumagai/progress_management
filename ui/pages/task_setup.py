@@ -57,3 +57,8 @@ class TaskSetupPage(tk.Frame):
         progress_type_id = self.progress_types[selected_progress_type][0]
         total_count = self.total_count.get()
         task_service.add_task(name, progress_unit_id, progress_type_id, total_count)
+        self.name.delete(0, tk.END)
+        self.progress_unit.current(0)
+        self.progress_type.current(0)
+        self.total_count.delete(0, tk.END)
+        self.controller.show_frame("LogProgressPage")

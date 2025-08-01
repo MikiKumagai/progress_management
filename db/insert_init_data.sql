@@ -10,11 +10,3 @@ INSERT INTO tasks (
     total_count,
     progress
 ) VALUES ("機械学習", 1, 1, 361, 306), ("G検定", 2, 2, 1636, 533);
-
--- 進捗記録
-INSERT INTO progresses (
-    task_id,
-    progress_value,
-    progress_date
-) VALUES (1, 19, '2025-05-12'), (1, 6, '2025-05-13'), (1, 16, '2025-05-14'), (1, 14, '2025-05-15');
--- TODO: CSVで既存データを取り込む

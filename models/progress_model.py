@@ -9,7 +9,7 @@ def insert_progress(task_id, progress_value):
     cur = conn.cursor()
     now = datetime.now().isoformat()
     cur.execute(
-        "INSERT OR REPLACE INTO progresses (task_id, progress_value, updated_at) VALUES (?, ?, ?)",
+        "INSERT OR REPLACE INTO progresses (task_id, progress_value, progress_date) VALUES (?, ?, ?)",
         (task_id, progress_value, now)
     )
     conn.commit()

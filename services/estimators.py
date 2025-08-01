@@ -1,1 +1,1 @@
-# TODO: 完了日予測などの計算はここでやる
+import numpy as np

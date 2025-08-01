@@ -27,7 +27,6 @@ class LogProgressPage(tk.Frame):
         self.task_combo.current(0)
         self.task_combo.grid(row=1, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
 
-        # TODO: ボタン無しでリストの選択だけで表示切り替えたい
         # タスク切り替えボタン
         switch_button = ttk.Button(self, text="切替", command=self.on_switch_task)
         switch_button.grid(row=1, column=5, padx=5, pady=5, sticky="nsew")
@@ -38,7 +37,6 @@ class LogProgressPage(tk.Frame):
         self.progress_type = ttk.Label(self, text="")
         self.progress_type.grid(row=3, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
 
-        # TODO: validation
         # 進捗入力
         progress_value_label = ttk.Label(self, text="進捗入力")
         progress_value_label.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
@@ -107,4 +105,4 @@ class LogProgressPage(tk.Frame):
         progress_value = self.progress_value.get()
         progress_type = self.progress_type
         progress_service.add_progress(task_id, progress_value, progress_type)
-        # TODO: Entry空にする、完了通知出す
+       

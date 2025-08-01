@@ -1,1 +1,1 @@
-# TODO: グラフの描画はここでやる
+import matplotlib.pyplot as plt

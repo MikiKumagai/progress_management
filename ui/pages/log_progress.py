@@ -17,47 +17,39 @@ class LogProgressPage(tk.Frame):
         title_label.grid(row=0, column=0, columnspan=12, padx=5, pady=10, sticky="nsew")
 
         # タスク
-        self.tasks = task_service.get_tasks()
-        task_list = [task[1] for task in self.tasks]
-
         label = ttk.Label(self, text="タスク選択")
         label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
+        self.tasks = task_service.get_tasks()
+        task_list = [task[1] for task in self.tasks]
         self.task_combo = ttk.Combobox(self, values=task_list, state="readonly")
         self.task_combo.current(0)
-        self.task_combo.grid(row=1, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
-
-        # タスク切り替えボタン
-        switch_button = ttk.Button(self, text="切替", command=self.on_switch_task)
-        switch_button.grid(row=1, column=5, padx=5, pady=5, sticky="nsew")
+        self.task_combo.grid(row=1, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
+        self.task_combo.bind("<<ComboboxSelected>>", self.on_switch_task)
 
         # 入力タイプ
-        progress_type_label = ttk.Label(self, text="入力タイプ")
-        progress_type_label.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
         self.progress_type = ttk.Label(self, text="")
-        self.progress_type.grid(row=3, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
+        self.progress_type.grid(row=3, column=0, columnspan=4, padx=5, pady=5, sticky="nsew")
 
         # 進捗入力
-        progress_value_label = ttk.Label(self, text="進捗入力")
-        progress_value_label.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
         self.progress_value = ttk.Entry(self)
-        self.progress_value.grid(row=4, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
+        self.progress_value.grid(row=3, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
 
         # 進捗単位
         self.progress_unit = ttk.Label(self, text="")
-        self.progress_unit.grid(row=4, column=4, padx=5, pady=5, sticky="nsew")
+        self.progress_unit.grid(row=3, column=4, padx=5, pady=5, sticky="nsew")
 
         # 登録ボタン
         add_button = ttk.Button(self, text="登録", command=self.on_submit)
-        add_button.grid(row=4, column=5, padx=5, pady=5, sticky="nsew")
+        add_button.grid(row=3, column=5, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_task_setup = ttk.Button(self, text="新規登録", command=lambda: controller.show_frame("TaskSetupPage"))
-        nav_task_setup.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_progress_overview = ttk.Button(self, text="進捗確認", command=lambda: controller.show_frame("ProgressOverviewPage"))
-        nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
+        nav_progress_overview.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
 
         self.after(0, self.set_default_task)
 
@@ -91,7 +83,7 @@ class LogProgressPage(tk.Frame):
         self.update_task_labels(self.selected_task_id)
     
     # 切り替えボタン押下
-    def on_switch_task(self):
+    def on_switch_task(self, event):
         selected_index = self.task_combo.current()
         if selected_index < 0:
             return

@@ -98,5 +98,4 @@ class LogProgressPage(tk.Frame):
         progress_type = self.progress_type
         progress_service.add_progress(task_id, progress_value, progress_type)
         self.progress_value.delete(0, tk.END)
-
        

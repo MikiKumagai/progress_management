@@ -18,6 +18,7 @@ def update_task_progress(task_id, today_progress):
     # TODO: today_progressとprogress足した値でUPDATE
     # TODO: これだと日に2回送られてきたときどうしよかな
     # TODO: 累計で送られてきたらそのまま入れよかな
+    # TODO: total_countとprogressが同じになったらactiveをFalseにする
     cur.execute("UPDATE tasks SET progress = ? WHERE id = ?", (today_progress, task_id))
     conn.commit()
     conn.close()

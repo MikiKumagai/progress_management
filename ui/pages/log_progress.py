@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from presentations import table
 from services import task_service, progress_service, progress_unit_service, progress_type_service
 
 class LogProgressPage(tk.Frame):
@@ -28,11 +27,12 @@ class LogProgressPage(tk.Frame):
         self.combo.current(0)
         self.combo.grid(row=1, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
 
+        # TODO: ボタン無しでリストの選択だけで表示切り替えたい
         # タスク切り替えボタン
         switch_button = ttk.Button(self, text="切替", command=self.on_switch_task)
         switch_button.grid(row=1, column=5, padx=5, pady=5, sticky="nsew")
 
-        # TODO: タスクに進行中とかのフラグつける
+        # TODO: アクティブなタスクだけ表示する
         # 入力タイプ
         progress_type_label = ttk.Label(self, text="入力タイプ")
         progress_type_label.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
@@ -71,12 +71,11 @@ class LogProgressPage(tk.Frame):
         self.progress_unit.config(text=progress_unit)
         self.progress_type.config(text=progress_type)
 
-    # TODO: リフレッシュして新しいタスクがリストにちゃんと入るようにする
+    # 画面表示時の再取得
     def refresh(self):
         self.tasks = task_service.get_tasks()
         task_list = [task[1] for task in self.tasks]
         self.combo['values'] = task_list
-
         if task_list:
             self.combo.current(0)
             self.selected_task_id = self.tasks[0][0]

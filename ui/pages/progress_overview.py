@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from presentations import table
+from presentations import progress_table
 
 class ProgressOverviewPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -26,7 +26,7 @@ class ProgressOverviewPage(tk.Frame):
         self.tree.pack(padx=10, pady=10, fill="x")
 
         # DataFrame取得
-        df = table.get_progress_summary()
+        df = progress_table.get_progress_summary()
 
         # DataFrameの各行をTreeviewに追加
         for _, row in df.iterrows():
@@ -42,7 +42,7 @@ class ProgressOverviewPage(tk.Frame):
             self.tree.delete(item)
 
         # 最新のデータを取得
-        df = table.get_progress_summary()
+        df = progress_table.get_progress_summary()
 
         # 表にデータを再挿入
         for _, row in df.iterrows():

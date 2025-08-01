@@ -50,10 +50,10 @@ class TaskSetupPage(tk.Frame):
         nav_log_progress.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
 
     def on_submit(self):
-        name = self.name
-        # TODO: IDを設定する
-        progress_unit_id = self.self.progress_unit.current()
-        progress_type_id = self.self.progress_type.current()
+        name = self.name.get()
+        selected_progress_unit = self.progress_unit.current()
+        progress_unit_id = self.progress_units[selected_progress_unit][0]
+        selected_progress_type = self.progress_type.current()
+        progress_type_id = self.progress_types[selected_progress_type][0]
         total_count = self.total_count.get()
-        # TODO: add_taskメソッドを作成する
         task_service.add_task(name, progress_unit_id, progress_type_id, total_count)

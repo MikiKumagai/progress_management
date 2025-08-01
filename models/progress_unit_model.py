@@ -3,34 +3,23 @@ from datetime import datetime
 
 DB_PATH = "db/progress.db"
 
-def insert_progress(task_id, progress_value):
+# 進捗記録画面：進捗単位
+def select_progress_unit(task_id):
     conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    now = datetime.now().isoformat()
-    cur.execute(
-        "INSERT OR REPLACE INTO progresses (task_id, progress_value, updated_at) VALUES (?, ?, ?)",
-        (task_id, progress_value, now)
-    )
-    conn.commit()
-    conn.close()
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT 
+      pu.name 
+    FROM 
+      tasks t 
+      INNER JOIN progress_units pu ON pu.id = t.progress_unit_id 
+    WHERE t.id = ?
+    """, (task_id,))
+    return cursor.fetchone()
 
-def get_total_progress_for_task(task_id):
+# 進捗記録画面：進捗単位のリスト
+def select_progress_units():
     conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    cur.execute("SELECT SUM(progress_value) FROM progresses WHERE task_id = ?", (task_id,))
-    total = cur.fetchone()[0] or 0
-    conn.close()
-    return total
-
-def fetch_all_progresses():
-    conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    cur.execute("""SELECT 
-        t.name, 
-        p.progress_value, 
-        p.progress_date 
-        FROM progresses p
-        INNER JOIN tasks t ON p.task_id = t.id""")
-    progresses = cur.fetchall() 
-    conn.close()
-    return progresses
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name FROM progress_units")
+    return cursor.fetchall() 

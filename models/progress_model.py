@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime
+from datetime import date
 
 DB_PATH = "db/progress.db"
 
@@ -7,10 +7,10 @@ DB_PATH = "db/progress.db"
 def insert_progress(task_id, progress_value):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    now = datetime.now().isoformat()
+    today = date.today().isoformat()
     cur.execute(
         "INSERT OR REPLACE INTO progresses (task_id, progress_value, progress_date) VALUES (?, ?, ?)",
-        (task_id, progress_value, now)
+        (task_id, progress_value, today)
     )
     conn.commit()
     conn.close()

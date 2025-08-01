@@ -17,3 +17,4 @@ INSERT INTO progresses (
     progress_value,
     progress_date
 ) VALUES ( 1, 19, '2025-05-12'), ( 1, 6, '2025-05-13'), ( 1, 16, '2025-05-14'), ( 1, 14, '2025-05-15');
+-- TODO: CSVで既存データを取り込む

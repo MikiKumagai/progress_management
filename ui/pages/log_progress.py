@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from presentations import table
-from services import task_service, progress_service
+from services import task_service, progress_service, progress_unit_service, progress_type_service
 
 class LogProgressPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -65,27 +65,21 @@ class LogProgressPage(tk.Frame):
 
     def set_default_task(self):
         if not self.tasks:
-            return  # タスクがない場合は何もしない
-        self.combo.current(0)  # 最初のタスクを選択状態にする
-        self.selected_task_id = self.tasks[0][0]  # 選択されたタスクIDをセット
-        # 単位とタイプを取得して表示
-        progress_unit = task_service.get_progress_unit(self.selected_task_id)
-        progress_type = task_service.get_progress_type(self.selected_task_id)
+            return
+        self.combo.current(0) 
+        self.selected_task_id = self.tasks[0][0]
+        progress_unit = progress_unit_service.get_progress_unit(self.selected_task_id)
+        progress_type = progress_type_service.get_progress_type(self.selected_task_id)
         self.progress_unit.config(text=progress_unit)
         self.progress_type.config(text=progress_type)
     
     def on_switch_task(self):
-        # 選択中のタスク名からIDを特定
         selected_index = self.combo.current()
         if selected_index < 0:
-            return  # 未選択なら何もしない
-
+            return 
         self.selected_task_id = self.tasks[selected_index][0]
-
-        # 進捗単位・入力タイプをサービスから取得して表示更新
-        progress_unit = task_service.get_progress_unit(self.selected_task_id)
-        progress_type = task_service.get_progress_type(self.selected_task_id)
-
+        progress_unit = progress_unit_service.get_progress_unit(self.selected_task_id)
+        progress_type = progress_type_service.get_progress_type(self.selected_task_id)
         self.progress_unit.config(text=progress_unit)
         self.progress_type.config(text=progress_type)
 

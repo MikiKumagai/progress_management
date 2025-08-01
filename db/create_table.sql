@@ -17,7 +17,7 @@ CREATE TABLE tasks (
     progress_unit_id INTEGER NOT NULL,
     progress_type_id INTEGER NOT NULL,
     total_count INTEGER NOT NULL,
-    progress INTEGER NOT NULL,
+    progress INTEGER DEFAULT 0 NOT NULL,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (progress_unit_id) REFERENCES progress_units (id)
     FOREIGN KEY (progress_type_id) REFERENCES progress_types (id)

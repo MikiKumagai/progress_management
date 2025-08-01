@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from presentations import table
 from services import task_service, progress_service
 
 class LogProgressPage(tk.Frame):
@@ -86,4 +87,4 @@ class LogProgressPage(tk.Frame):
         progress_type = self.progress_type
         progress_service.add_progress(task_id, progress_value, progress_type)
         # TODO: Entry空にする、完了通知出す
-        print("ok")
+        # TODO: データ更新？確認画面に反映されないからデータ取得タイミングを考える。遷移時がいい気がする。

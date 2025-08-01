@@ -1,27 +1,7 @@
 from models import task_model, progress_model
 import sqlite3
 
-# TODO: SQLをmodelに移動
-# 学習内容をDBに追加する関数
-def add_task():
-    task = task.get()
-    if task.strip() == "":
-        messagebox.showwarning("注意", "内容を入力してください")
-        return
-    cur.execute("INSERT INTO progress (task) VALUES (?)", (task,))
-    conn.commit()
-    task.delete(0, tk.END)
-    update_listbox()
-
-# 進捗記録画面：タスク名のリスト
-def get_task_names():
-    conn = sqlite3.connect("db/progress.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT name FROM tasks")
-    task_names = [row[0] for row in cursor.fetchall()]
-    conn.close()
-    return task_names
-
+# TODO: SQLをtask_modelに移動
 # 進捗記録画面：タスクのリスト
 def get_tasks():
     conn = sqlite3.connect("db/progress.db")

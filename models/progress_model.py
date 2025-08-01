@@ -21,3 +21,11 @@ def get_total_progress_for_task(task_id):
     total = cur.fetchone()[0] or 0
     conn.close()
     return total
+
+def fetch_all_progresses():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT task_id, progress_value, progress_date FROM progresses")
+    progresses = cur.fetchall() 
+    conn.close()
+    return progresses

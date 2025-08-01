@@ -27,7 +27,7 @@ def update_task_progress(task_id, today_progress):
 def select_tasks():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name FROM tasks")
+    cursor.execute("SELECT id, name FROM tasks WHERE active")
     return cursor.fetchall() 
 
 # タスク登録ページ：新規タスク追加

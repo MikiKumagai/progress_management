@@ -20,7 +20,6 @@ with open("db/insert_init_data.sql", "r", encoding="utf-8") as f:
     insert_init_data = f.read()
     cur.executescript(insert_init_data)
 
-# TODO: ファイルからデータ取ってくる
 # progresses.csvから登録
 with open("db/progresses.csv", newline='', encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)

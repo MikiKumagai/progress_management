@@ -1,6 +1,7 @@
 from models import task_model, progress_model
 import sqlite3
 
+# TODO: SQLをmodelに移動
 # 学習内容をDBに追加する関数
 def add_task():
     task = task.get()

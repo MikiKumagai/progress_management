@@ -7,13 +7,15 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("学習管理アプリ")
-        self.geometry("500x500")
+        self.geometry("600x600+600+100")
 
         for i in range(5):
             self.grid_columnconfigure(i, weight=1)
 
         container = tk.Frame(self)
         container.grid(row=0, column=0, sticky="nsew")
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
         for F in (LogProgressPage, TaskSetupPage, ProgressOverviewPage):

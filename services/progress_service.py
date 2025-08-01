@@ -1,20 +1,13 @@
 from models import task_model, progress_model
 
-def record_progress(task_id, today_progress):
+def add_progress(task_id, progress_value, progress_type):
     # 1. 進捗をprogressテーブルに追加
-    progress_model.insert_progress(task_id, today_progress)
+    # progress_typeが累計だったら差分に直して登録する
+    if progress_type == "累計":
+        total_count = task_model.select_total_count(task_id)
+        progress_value = progress_value - total_count
+    progress_model.insert_progress(task_id, progress_value)
 
     # 2. 合計進捗を更新
     current = progress_model.get_total_progress_for_task(task_id)
     task_model.update_task_progress(task_id, current)
-
-# 学習内容をDBに追加する関数
-def add_progress():
-    task = task.get()
-    if task.strip() == "":
-        messagebox.showwarning("注意", "内容を入力してください")
-        return
-    cur.execute("INSERT INTO progress (task) VALUES (?)", (task,))
-    conn.commit()
-    task.delete(0, tk.END)
-    update_listbox()

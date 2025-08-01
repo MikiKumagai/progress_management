@@ -3,19 +3,27 @@ import sqlite3
 DB_PATH = "db/progress.db"
 
 # 進捗記録ページ：登録値計算用データ取得
-def select_total_count(task_id):
+def select_task_data(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("SELECT total_count FROM tasks WHERE id = ?", (task_id))
-    total = cur.fetchone()[0] or 0
+    cur.execute("SELECT progress, total_count FROM tasks WHERE id = ?", (task_id,))
+    progress, total_count = cur.fetchone()
     conn.close()
-    return total
+    return progress, total_count
 
 # 進捗記録ページ：進捗累計を更新
 def update_task_progress(task_id, today_progress):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("UPDATE tasks SET progress = ? WHERE id = ?", (today_progress, task_id))
+    conn.commit()
+    conn.close()
+
+# 進捗記録ページ：タスク完了フラグを立てる
+def update_task_completion(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE tasks SET active = False WHERE id = ?", (task_id,))
     conn.commit()
     conn.close()
 

@@ -19,12 +19,12 @@ class LogProgressPage(tk.Frame):
 
         # タスク
         self.tasks = task_service.get_tasks()
-        task_names = [task[1] for task in self.tasks]
+        task_list = [task[1] for task in self.tasks]
 
         label = ttk.Label(self, text="タスク選択")
         label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
-        self.combo = ttk.Combobox(self, values=task_names, state="readonly")
+        self.combo = ttk.Combobox(self, values=task_list, state="readonly")
         self.combo.current(0)
         self.combo.grid(row=1, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
 
@@ -32,7 +32,6 @@ class LogProgressPage(tk.Frame):
         switch_button = ttk.Button(self, text="切替", command=self.on_switch_task)
         switch_button.grid(row=1, column=5, padx=5, pady=5, sticky="nsew")
 
-        # TODO: デフォルトで0のやつ
         # TODO: タスクに進行中とかのフラグつける
         # 入力タイプ
         progress_type_label = ttk.Label(self, text="入力タイプ")
@@ -40,14 +39,12 @@ class LogProgressPage(tk.Frame):
         self.progress_type = ttk.Label(self, text="")
         self.progress_type.grid(row=3, column=1, columnspan=4, padx=5, pady=5, sticky="nsew")
 
-        # TODO: progresses登録
         # 進捗入力
         progress_type_label = ttk.Label(self, text="進捗入力")
         progress_type_label.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
         self.progress_value = ttk.Entry(self)
         self.progress_value.grid(row=4, column=1, columnspan=3, padx=5, pady=5, sticky="nsew")
 
-        # TODO: デフォルトで0のやつ
         # 進捗単位
         self.progress_unit = ttk.Label(self, text="")
         self.progress_unit.grid(row=4, column=4, padx=5, pady=5, sticky="nsew")
@@ -64,6 +61,19 @@ class LogProgressPage(tk.Frame):
         nav_progress_overview = ttk.Button(self, text="進捗確認", command=lambda: controller.show_frame("ProgressOverviewPage"))
         nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
 
+        self.after(0, self.set_default_task)
+
+    def set_default_task(self):
+        if not self.tasks:
+            return  # タスクがない場合は何もしない
+        self.combo.current(0)  # 最初のタスクを選択状態にする
+        self.selected_task_id = self.tasks[0][0]  # 選択されたタスクIDをセット
+        # 単位とタイプを取得して表示
+        progress_unit = task_service.get_progress_unit(self.selected_task_id)
+        progress_type = task_service.get_progress_type(self.selected_task_id)
+        self.progress_unit.config(text=progress_unit)
+        self.progress_type.config(text=progress_type)
+    
     def on_switch_task(self):
         # 選択中のタスク名からIDを特定
         selected_index = self.combo.current()
@@ -80,7 +90,6 @@ class LogProgressPage(tk.Frame):
         self.progress_type.config(text=progress_type)
 
     def on_submit(self):
-        # TODO; デフォルト値用意
         selected_index = self.combo.current()
         task_id = self.tasks[selected_index][0]
         progress_value = self.progress_value.get()

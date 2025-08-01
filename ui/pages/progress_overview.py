@@ -25,13 +25,18 @@ class ProgressOverviewPage(tk.Frame):
 
         self.tree.pack(padx=10, pady=10, fill="x")
 
-        # DataFrame取得
-        df = table.get_progress_summary()
-
-        # DataFrameの各行をTreeviewに追加
-        for _, row in df.iterrows():
-            self.tree.insert("", "end", values=(row["task_name"], row["progress_value"], row["progress_date"]))
-
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
         nav_task_setup.pack(pady=10)
+
+        # TODO: 表示直後にデータ読み込み
+        self.after(0, self.set_data)
+
+    def set_data(self):
+        df = table.get_progress_summary()
+        for _, row in df.iterrows():
+            self.tree.insert("", "end", values=(
+                row["task_name"],
+                row["progress_value"],
+                row["progress_date"]
+            ))

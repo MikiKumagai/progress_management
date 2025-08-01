@@ -25,8 +25,12 @@ def get_total_progress_for_task(task_id):
 def fetch_all_progresses():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    # TODO: tasksをJOINして名前をとる
-    cur.execute("SELECT task_id, progress_value, progress_date FROM progresses")
+    cur.execute("""SELECT 
+        t.name, 
+        p.progress_value, 
+        p.progress_date 
+        FROM progresses p
+        INNER JOIN tasks t ON p.task_id = t.id""")
     progresses = cur.fetchall() 
     conn.close()
     return progresses

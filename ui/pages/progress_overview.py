@@ -12,14 +12,14 @@ class ProgressOverviewPage(tk.Frame):
         title_label.pack(pady=10)
 
         # 表（Treeview）
-        columns = ("task_id", "progress_value", "progress_date")
+        columns = ("task_name", "progress_value", "progress_date")
         self.tree = ttk.Treeview(self, columns=columns, show="headings", height=10)
-        self.tree.heading("task_id", text="タスクID")
+        self.tree.heading("task_name", text="タスク")
         self.tree.heading("progress_value", text="進捗")
         self.tree.heading("progress_date", text="更新日")
 
         # カラム幅（必要に応じて調整してOK）
-        self.tree.column("task_id", width=100, anchor="center")
+        self.tree.column("task_name", width=100, anchor="center")
         self.tree.column("progress_value", width=100, anchor="center")
         self.tree.column("progress_date", width=150, anchor="center")
 
@@ -30,7 +30,7 @@ class ProgressOverviewPage(tk.Frame):
 
         # DataFrameの各行をTreeviewに追加
         for _, row in df.iterrows():
-            self.tree.insert("", "end", values=(row["task_id"], row["progress_value"], row["progress_date"]))
+            self.tree.insert("", "end", values=(row["task_name"], row["progress_value"], row["progress_date"]))
 
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))

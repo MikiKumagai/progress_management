@@ -1,8 +1,6 @@
 from models import progress_unit_model
 import sqlite3
 
-# TODO: SQLをtask_modelに移動
-
 # 進捗記録画面：進捗単位
 def get_progress_unit(task_id):
     progress_unit = progress_unit_model.select_progress_unit(task_id)

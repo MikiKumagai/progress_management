@@ -6,5 +6,6 @@ def get_tasks():
     tasks = task_model.select_tasks()
     return tasks
 
+# タスク登録画面：タスクの追加
 def add_task(name, progress_unit_id, progress_type_id, total_count):
     task_model.insert_task(name, progress_unit_id, progress_type_id, total_count)

@@ -3,6 +3,7 @@ from datetime import datetime
 
 DB_PATH = "db/progress.db"
 
+# 進捗記録ページ：進捗記録
 def insert_progress(task_id, progress_value):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
@@ -14,14 +15,7 @@ def insert_progress(task_id, progress_value):
     conn.commit()
     conn.close()
 
-def get_total_progress_for_task(task_id):
-    conn = sqlite3.connect(DB_PATH)
-    cur = conn.cursor()
-    cur.execute("SELECT SUM(progress_value) FROM progresses WHERE task_id = ?", (task_id,))
-    total = cur.fetchone()[0] or 0
-    conn.close()
-    return total
-
+# 進捗確認ページ：表取得
 def fetch_all_progresses():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()

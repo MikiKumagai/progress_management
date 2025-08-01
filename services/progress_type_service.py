@@ -1,8 +1,6 @@
 from models import progress_type_model
 import sqlite3
 
-# TODO: SQLをtask_modelに移動
-
 # 進捗記録画面：入力形式
 def get_progress_type(task_id):
     progress_type = progress_type_model.select_progress_type(task_id)

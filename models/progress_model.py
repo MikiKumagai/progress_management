@@ -53,3 +53,18 @@ def fetch_all_progresses():
     progresses = cur.fetchall() 
     conn.close()
     return progresses
+
+# 進捗確認ページ：グラフ用データ取得
+def for_chart():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""SELECT 
+        t.name, 
+        p.task_id, 
+        p.progress_value, 
+        p.progress_date 
+        FROM progresses p
+        INNER JOIN tasks t ON p.task_id = t.id""")
+    progresses = cur.fetchall() 
+    conn.close()
+    return progresses

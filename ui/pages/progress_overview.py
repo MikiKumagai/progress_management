@@ -28,8 +28,6 @@ class ProgressOverviewPage(tk.Frame):
         title_label = ttk.Label(self, text="進捗確認", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
-        # TODO: 課題ごとの進度のちのち棒グラフにする
-
         # タスク取得とコンボボックス
         self.tasks = task_service.get_tasks()
         task_list = [task[1] for task in self.tasks]
@@ -40,7 +38,6 @@ class ProgressOverviewPage(tk.Frame):
         self.task_combo.bind("<<ComboboxSelected>>", self.on_switch_task)
 
         # グラフ描画
-        fig, ax = plt.subplots(figsize=(6, 4))
         fig = progress_chart.create_progress_chart(self.selected_task_id)
         self.canvas = FigureCanvasTkAgg(fig, master=self)
         self.canvas.draw()

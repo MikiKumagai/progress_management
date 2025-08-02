@@ -40,12 +40,13 @@ def update_progress(task_id, progress_value):
     conn.commit()
     conn.close()
 
-# 進捗確認ページ：表取得
-def fetch_all_progresses():
+# 進捗確認ページ：グラフ用データ取得
+def select_progresses_for_chart(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("""SELECT 
         t.name, 
+        p.task_id, 
         p.progress_value, 
         p.progress_date 
         FROM progresses p

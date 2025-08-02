@@ -10,9 +10,9 @@ class LogProgressPage(tk.Frame):
         for i in range(6):
             self.grid_columnconfigure(i, weight=1, uniform="a")
         for j in range(7):
-            self.grid_rowconfigure(j, weight=1)
+            self.grid_rowconfigure(j, weight=0)
 
-        # ラベル（ページタイトル）
+        # ページタイトル
         title_label = ttk.Label(self, text="進捗記録", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
 
@@ -86,7 +86,7 @@ class LogProgressPage(tk.Frame):
         self.selected_task_id = self.tasks[0][0]
         self.update_task_labels(self.selected_task_id)
     
-    # 切り替えボタン押下
+    # 切り替え
     def on_switch_task(self, event):
         selected_index = self.task_combo.current()
         if selected_index < 0:

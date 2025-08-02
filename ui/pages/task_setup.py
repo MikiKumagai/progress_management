@@ -10,13 +10,13 @@ class TaskSetupPage(tk.Frame):
         for i in range(6):
             self.grid_columnconfigure(i, weight=1, uniform="a")
         for j in range(7):
-            self.grid_rowconfigure(j, weight=1)
+            self.grid_rowconfigure(j, weight=0)
 
-        # ラベル（ページタイトル）
+        # ページタイトル
         title_label = ttk.Label(self, text="課題登録", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
 
-        # 課題
+        # 課題名
         name_label = ttk.Label(self, text="課題名")
         name_label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
         self.name = ttk.Entry(self)

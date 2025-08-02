@@ -46,8 +46,15 @@ def insert_task(name, progress_unit_id, progress_type_id, total_count):
     conn.close()
 
 # 進捗確認ページ：タスクの進捗状況リストを取得
-def select_task_progress():
+def fetch_all_tasks():
     conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT name, progress, total_count, active FROM tasks")
-    return cursor.fetchall() 
+    cur = conn.cursor()
+    cur.execute("""SELECT 
+        name, 
+        progress, 
+        total_count, 
+        active 
+        FROM tasks""")
+    tasks = cur.fetchall() 
+    conn.close()
+    return tasks

@@ -9,7 +9,7 @@ class App(tk.Tk):
         self.title("学習管理アプリ")
         self.geometry("600x600+600+100")
 
-        for i in range(5):
+        for i in range(6):
             self.grid_columnconfigure(i, weight=1)
 
         container = tk.Frame(self)

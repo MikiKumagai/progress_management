@@ -7,14 +7,19 @@ class TaskSetupPage(tk.Frame):
         super().__init__(parent)
         self.controller = controller
 
+        for i in range(6):
+            self.grid_columnconfigure(i, weight=1, uniform="a")
+        for j in range(7):
+            self.grid_rowconfigure(j, weight=1)
+
         # ラベル（ページタイトル）
         title_label = ttk.Label(self, text="新規登録", font=("Helvetica", 16))
-        title_label.grid(row=0, column=0, columnspan=12, padx=5, pady=10, sticky="nsew")
+        title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
 
         # タスク
         name_label = tk.Label(self, text="タスク名")
         name_label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
-        self.name = tk.Entry(self, width=40)
+        self.name = tk.Entry(self)
         self.name.grid(row=1, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
 
         # 進捗単位
@@ -38,7 +43,7 @@ class TaskSetupPage(tk.Frame):
         # ゴール
         total_count_label = tk.Label(self, text="ゴール")
         total_count_label.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
-        self.total_count = tk.Entry(self, width=40)
+        self.total_count = tk.Entry(self)
         self.total_count.grid(row=4, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
 
         # 登録ボタン

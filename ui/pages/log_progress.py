@@ -14,7 +14,7 @@ class LogProgressPage(tk.Frame):
 
         # ラベル（ページタイトル）
         title_label = ttk.Label(self, text="進捗記録", font=("Helvetica", 16))
-        title_label.grid(row=0, column=0, columnspan=12, padx=5, pady=10, sticky="nsew")
+        title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
 
         # タスク
         label = ttk.Label(self, text="タスク選択")

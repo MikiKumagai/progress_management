@@ -7,14 +7,19 @@ class TaskSetupPage(tk.Frame):
         super().__init__(parent)
         self.controller = controller
 
-        # ラベル（ページタイトル）
-        title_label = ttk.Label(self, text="新規登録", font=("Helvetica", 16))
-        title_label.grid(row=0, column=0, columnspan=12, padx=5, pady=10, sticky="nsew")
+        for i in range(6):
+            self.grid_columnconfigure(i, weight=1, uniform="a")
+        for j in range(7):
+            self.grid_rowconfigure(j, weight=1)
 
-        # タスク
-        name_label = tk.Label(self, text="タスク名")
+        # ラベル（ページタイトル）
+        title_label = ttk.Label(self, text="課題登録", font=("Helvetica", 16))
+        title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
+
+        # 課題
+        name_label = ttk.Label(self, text="課題名")
         name_label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
-        self.name = tk.Entry(self, width=40)
+        self.name = ttk.Entry(self)
         self.name.grid(row=1, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
 
         # 進捗単位
@@ -36,13 +41,13 @@ class TaskSetupPage(tk.Frame):
         self.progress_type.grid(row=3, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
 
         # ゴール
-        total_count_label = tk.Label(self, text="ゴール")
+        total_count_label = ttk.Label(self, text="ゴール")
         total_count_label.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
-        self.total_count = tk.Entry(self, width=40)
+        self.total_count = ttk.Entry(self)
         self.total_count.grid(row=4, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
 
         # 登録ボタン
-        add_button = tk.Button(self, text="登録", command=self.on_submit)
+        add_button = ttk.Button(self, text="登録", command=self.on_submit)
         add_button.grid(row=5, column=5, padx=5, pady=5, sticky="nsew")
 
         # バリデーションメッセージ
@@ -52,14 +57,14 @@ class TaskSetupPage(tk.Frame):
         self.count_error_label.grid(row=6, column=0, columnspan=6, padx=5, pady=5, sticky="e")
 
         # 遷移ボタン
-        nav_log_progress = tk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
+        nav_log_progress = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
         nav_log_progress.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
 
 
     def on_submit(self):
         name = self.name.get()
         if len(name) >= 10:
-            self.name_error_label.config(text="タスク名は10文字未満で入力してください")
+            self.name_error_label.config(text="課題名は10文字未満で入力してください")
             return
         else:
             self.name_error_label.config(text="")  # エラー解除

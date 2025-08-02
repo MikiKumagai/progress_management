@@ -9,35 +9,30 @@ class ProgressOverviewPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
-        self.grid_propagate(False)
-
-        # タスクの取得と選択
-        self.tasks = task_service.get_tasks()
-        task_list = [task[1] for task in self.tasks]
-        self.selected_task_id = self.tasks[0][0] if self.tasks else None
         
         for i in range(6):
             self.grid_columnconfigure(i, weight=1, uniform="a")
-
-        self.grid_rowconfigure(0, weight=0)
-        self.grid_rowconfigure(1, weight=0)
-        self.grid_rowconfigure(2, weight=1)
-        self.grid_rowconfigure(3, weight=0)
+        for j in range(7):
+            self.grid_rowconfigure(j, weight=1)
 
         # ページタイトル
         title_label = ttk.Label(self, text="進捗確認", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
-        # 課題コンボボックス
+        # タスクの取得と選択
         self.tasks = task_service.get_tasks()
         task_list = [task[1] for task in self.tasks]
+        self.selected_task_id = self.tasks[0][0] if self.tasks else None
+        self.tasks = task_service.get_tasks()
+        task_list = [task[1] for task in self.tasks]
+        # 課題コンボボックス
         self.selected_task_id = self.tasks[0][0] if self.tasks else None
         self.task_combo = ttk.Combobox(self, values=task_list, state="readonly")
         self.task_combo.current(0)
         self.task_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.task_combo.bind("<<ComboboxSelected>>", self.on_switch_task)
 
-        # グラフ描画
+        # グラフ
         fig = progress_chart.create_progress_chart(self.selected_task_id)
         self.canvas = FigureCanvasTkAgg(fig, master=self)
         self.canvas.draw()

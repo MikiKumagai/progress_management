@@ -10,7 +10,7 @@ class LogProgressPage(tk.Frame):
         for i in range(6):
             self.grid_columnconfigure(i, weight=1, uniform="a")
         for j in range(7):
-            self.grid_rowconfigure(j, weight=1)
+            self.grid_rowconfigure(j, weight=0)
 
         # ページタイトル
         title_label = ttk.Label(self, text="進捗記録", font=("Helvetica", 16))

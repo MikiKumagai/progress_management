@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from presentations import progress_table, task_table, progress_chart
+from presentations import task_table, progress_chart
 
 class ProgressOverviewPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -12,10 +12,9 @@ class ProgressOverviewPage(tk.Frame):
         for i in range(6):
             self.grid_columnconfigure(i, weight=1, uniform="a")
         self.grid_rowconfigure(0, weight=0)
-        self.grid_rowconfigure(1, weight=1)  # task_tree
-        self.grid_rowconfigure(2, weight=3)  # progress_tree ←ここが広くなる
-        self.grid_rowconfigure(3, weight=2)  # グラフ
-        self.grid_rowconfigure(4, weight=0)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(2, weight=3)
+        self.grid_rowconfigure(3, weight=0)
 
         # ラベル（ページタイトル）
         title_label = ttk.Label(self, text="進捗確認", font=("Helvetica", 16))
@@ -38,44 +37,22 @@ class ProgressOverviewPage(tk.Frame):
         for _, row in task_summary.iterrows():
             self.task_tree.insert("", "end", values=(row["name"], row["progress"], row["total_count"], row["active"]))
 
-        # 表（progress）
-        # columns = ("task_name", "progress_value", "progress_date")
-        # self.progress_tree = ttk.Treeview(self, columns=columns, show="headings")
-        # self.progress_tree.heading("task_name", text="課題")
-        # self.progress_tree.heading("progress_value", text="進捗")
-        # self.progress_tree.heading("progress_date", text="更新日")
-        # self.progress_tree.column("task_name", width=100, anchor="w")
-        # self.progress_tree.column("progress_value", width=50, anchor="e")
-        # self.progress_tree.column("progress_date", width=150, anchor="e")
-        # self.progress_tree.grid(row=2, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
-
-        # progress_summary = progress_table.get_progress_summary()
-        # for _, row in progress_summary.iterrows():
-        #     self.progress_tree.insert("", "end", values=(row["task_name"], row["progress_value"], row["progress_date"]))
-
         # タスク切換えで表示変える
         # グラフ描画
         fig = progress_chart.create_progress_chart("機械学習")
         canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.draw()
-        canvas.get_tk_widget().grid(row=3, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
+        canvas.get_tk_widget().grid(row=2, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
 
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
-        nav_task_setup.grid(row=4, column=0, padx=5, pady=10, sticky="nsew")
+        nav_task_setup.grid(row=3, column=0, padx=5, pady=10, sticky="nsew")
 
     def refresh(self):
         # 既存のデータを全部削除
         for item in self.task_tree.get_children():
             self.task_tree.delete(item)
 
-        # for item in self.progress_tree.get_children():
-        #     self.progress_tree.delete(item)
-
         task_summary = task_table.get_task_summary()
         for _, row in task_summary.iterrows():
             self.task_tree.insert("", "end", values=(row["name"], row["progress"], row["total_count"], row["active"]))
-
-        # progress_summary = progress_table.get_progress_summary()
-        # for _, row in progress_summary.iterrows():
-        #     self.progress_tree.insert("", "end", values=(row["task_name"], row["progress_value"], row["progress_date"]))

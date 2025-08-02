@@ -17,7 +17,6 @@ def create_progress_chart(task_id):
     today = pd.to_datetime(date.today())
     df = df[df["progress_date"] <= today]
     # 累積を計算
-    # TODO: 残数のグラフにする
     df = df.sort_values("progress_date")
     df["cumulative_progress"] = df["progress_value"].cumsum()
     df["remaining_value"] = total_count - df["cumulative_progress"]

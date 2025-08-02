@@ -24,11 +24,11 @@ class ProgressOverviewPage(tk.Frame):
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=0)
 
-        # ラベル（ページタイトル）
+        # ページタイトル
         title_label = ttk.Label(self, text="進捗確認", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
-        # タスク取得とコンボボックス
+        # 課題コンボボックス
         self.tasks = task_service.get_tasks()
         task_list = [task[1] for task in self.tasks]
         self.selected_task_id = self.tasks[0][0] if self.tasks else None
@@ -71,8 +71,7 @@ class ProgressOverviewPage(tk.Frame):
         selected_index = self.task_combo.current()
         if selected_index < 0:
             return
-        self.selected_task_id = self.tasks[selected_index][0]
         # グラフを更新
-        new_fig = progress_chart.create_progress_chart(self.selected_task_id)
-        self.canvas.figure = new_fig
+        self.selected_task_id = self.tasks[selected_index][0]
+        self.canvas.figure = progress_chart.create_progress_chart(self.selected_task_id)
         self.canvas.draw()

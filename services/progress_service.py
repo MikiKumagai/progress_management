@@ -31,4 +31,5 @@ import math
 def get_rate(task_id):
     progress, total_count = task_model.select_task_data(task_id)
     rate = progress / total_count
-    return math.floor(rate * 1000) / 10
+    return rate * 100 
+    

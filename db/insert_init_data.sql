@@ -2,7 +2,7 @@ INSERT INTO progress_units (name) VALUES ("ページ"), ("問"), ("章"), ("セ�
 
 INSERT INTO progress_types (name) VALUES ("累計"), ("差分");
 
--- 学習タスク
+-- 学習課題
 INSERT INTO tasks (
     name,
     progress_unit_id,

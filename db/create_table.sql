@@ -10,7 +10,7 @@ CREATE TABLE progress_types (
     name TEXT NOT NULL
 );
 
--- 学習タスク
+-- 学習課題
 CREATE TABLE tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT UNIQUE NOT NULL,

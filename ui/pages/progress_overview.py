@@ -39,7 +39,7 @@ class ProgressOverviewPage(tk.Frame):
         # 表（progress）
         columns = ("task_name", "progress_value", "progress_date")
         self.progress_tree = ttk.Treeview(self, columns=columns, show="headings")
-        self.progress_tree.heading("task_name", text="タスク")
+        self.progress_tree.heading("task_name", text="課題")
         self.progress_tree.heading("progress_value", text="進捗")
         self.progress_tree.heading("progress_date", text="更新日")
         self.progress_tree.column("task_name", width=100, anchor="w")

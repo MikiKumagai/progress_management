@@ -19,7 +19,7 @@ def update_task_progress(task_id, today_progress):
     conn.commit()
     conn.close()
 
-# 進捗記録ページ：タスク完了フラグを立てる
+# 進捗記録ページ：課題完了フラグを立てる
 def update_task_completion(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
@@ -27,14 +27,14 @@ def update_task_completion(task_id):
     conn.commit()
     conn.close()
 
-# 進捗記録ページ：タスクのリストを取得
+# 進捗記録ページ：課題のリストを取得
 def select_tasks():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT id, name FROM tasks WHERE active")
     return cursor.fetchall() 
 
-# タスク登録ページ：新規タスク追加
+# 課題登録ページ：新規課題追加
 def insert_task(name, progress_unit_id, progress_type_id, total_count):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
@@ -45,7 +45,7 @@ def insert_task(name, progress_unit_id, progress_type_id, total_count):
     conn.commit()
     conn.close()
 
-# 進捗確認ページ：タスクの進捗状況リストを取得
+# 進捗確認ページ：課題の進捗状況リストを取得
 def fetch_all_tasks():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()

@@ -16,8 +16,8 @@ class LogProgressPage(tk.Frame):
         title_label = ttk.Label(self, text="進捗記録", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
 
-        # タスク
-        label = ttk.Label(self, text="タスク選択")
+        # 課題
+        label = ttk.Label(self, text="課題選択")
         label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
         self.tasks = task_service.get_tasks()
@@ -48,7 +48,7 @@ class LogProgressPage(tk.Frame):
         self.error_label.grid(row=4, column=0, columnspan=6, padx=5, pady=5, sticky="e")
 
         # 遷移ボタン
-        nav_task_setup = ttk.Button(self, text="新規登録", command=lambda: controller.show_frame("TaskSetupPage"))
+        nav_task_setup = ttk.Button(self, text="課題登録", command=lambda: controller.show_frame("TaskSetupPage"))
         nav_task_setup.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン

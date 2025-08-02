@@ -2,57 +2,75 @@ import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from presentations import task_table, progress_chart
+from services import task_service, progress_service
+import matplotlib.pyplot as plt
 
 class ProgressOverviewPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
         self.grid_propagate(False)
+
+        # タスクの取得と選択
+        self.tasks = task_service.get_tasks()
+        task_list = [task[1] for task in self.tasks]
+        self.selected_task_id = self.tasks[0][0] if self.tasks else None
         
         for i in range(6):
             self.grid_columnconfigure(i, weight=1, uniform="a")
-        self.grid_rowconfigure(0, weight=0)
-        self.grid_rowconfigure(1, weight=1)
-        self.grid_rowconfigure(2, weight=3)
-        self.grid_rowconfigure(3, weight=0)
 
         # ラベル（ページタイトル）
         title_label = ttk.Label(self, text="進捗確認", font=("Helvetica", 16))
-        title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
+        title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
-        # 表（task）
-        columns = ("name", "progress", "total_count", "active")
-        self.task_tree = ttk.Treeview(self, columns=columns, show="headings")
-        self.task_tree.heading("name", text="name")
-        self.task_tree.heading("progress", text="progress")
-        self.task_tree.heading("total_count", text="total_count")
-        self.task_tree.heading("active", text="active")
-        self.task_tree.column("name", width=100, anchor="w")
-        self.task_tree.column("progress", width=50, anchor="e")
-        self.task_tree.column("total_count", width=50, anchor="e")
-        self.task_tree.column("active", width=50, anchor="e")
-        self.task_tree.grid(row=1, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
+        # TODO: 課題ごとの進度のちのち棒グラフにする
 
-        task_summary = task_table.get_task_summary()
-        for _, row in task_summary.iterrows():
-            self.task_tree.insert("", "end", values=(row["name"], row["progress"], row["total_count"], row["active"]))
+        # タスク取得とコンボボックス
+        self.tasks = task_service.get_tasks()
+        task_list = [task[1] for task in self.tasks]
+        self.selected_task_id = self.tasks[0][0] if self.tasks else None
+        self.task_combo = ttk.Combobox(self, values=task_list, state="readonly")
+        self.task_combo.current(0)
+        self.task_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
+        self.task_combo.bind("<<ComboboxSelected>>", self.on_switch_task)
 
-        # タスク切換えで表示変える
         # グラフ描画
-        fig = progress_chart.create_progress_chart("機械学習")
-        canvas = FigureCanvasTkAgg(fig, master=self)
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=2, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
+        fig, ax = plt.subplots(figsize=(6, 4))
+        fig = progress_chart.create_progress_chart(self.selected_task_id)
+        self.canvas = FigureCanvasTkAgg(fig, master=self)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().grid(row=2, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
-        nav_task_setup.grid(row=3, column=0, padx=5, pady=10, sticky="nsew")
+        nav_task_setup.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
-        # 既存のデータを全部削除
-        for item in self.task_tree.get_children():
-            self.task_tree.delete(item)
+        self.tasks = task_service.get_tasks()
+        task_list = [task[1] for task in self.tasks]
+        self.task_combo['values'] = task_list
+        if task_list:
+            self.task_combo.current(0)
+            self.selected_task_id = self.tasks[0][0]
+        else:
+            self.task_combo.set("")
+            self.progress_unit.config(text="")
+            self.progress_type.config(text="")
 
-        task_summary = task_table.get_task_summary()
-        for _, row in task_summary.iterrows():
-            self.task_tree.insert("", "end", values=(row["name"], row["progress"], row["total_count"], row["active"]))
+    # 初期表示
+    def set_default_task(self):
+        if not self.tasks:
+            return
+        self.task_combo.current(0)
+        self.selected_task_id = self.tasks[0][0]
+    
+    # 切り替え
+    def on_switch_task(self, event):
+        selected_index = self.task_combo.current()
+        if selected_index < 0:
+            return
+        self.selected_task_id = self.tasks[selected_index][0]
+        # グラフを更新
+        new_fig = progress_chart.create_progress_chart(self.selected_task_id)
+        self.canvas.figure = new_fig
+        self.canvas.draw()

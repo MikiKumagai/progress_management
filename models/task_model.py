@@ -58,3 +58,13 @@ def fetch_all_tasks():
     tasks = cur.fetchall() 
     conn.close()
     return tasks
+
+
+# 進捗確認ページ：グラフ用データ取得
+def select_task_for_chart(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT name, total_count FROM tasks WHERE id=?", (task_id,))
+    name, total_count = cur.fetchone() 
+    conn.close()
+    return name, total_count

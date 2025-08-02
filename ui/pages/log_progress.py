@@ -86,7 +86,7 @@ class LogProgressPage(tk.Frame):
         self.selected_task_id = self.tasks[0][0]
         self.update_task_labels(self.selected_task_id)
     
-    # 切り替えボタン押下
+    # 切り替え
     def on_switch_task(self, event):
         selected_index = self.task_combo.current()
         if selected_index < 0:

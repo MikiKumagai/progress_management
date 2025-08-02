@@ -41,7 +41,7 @@ def update_progress(task_id, progress_value):
     conn.close()
 
 # 進捗確認ページ：グラフ用データ取得
-def for_chart():
+def select_progresses_for_chart(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("""SELECT 

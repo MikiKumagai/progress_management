@@ -19,6 +19,11 @@ class ProgressOverviewPage(tk.Frame):
         for i in range(6):
             self.grid_columnconfigure(i, weight=1, uniform="a")
 
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_rowconfigure(1, weight=0)
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_rowconfigure(3, weight=0)
+
         # ラベル（ページタイトル）
         title_label = ttk.Label(self, text="進捗確認", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")

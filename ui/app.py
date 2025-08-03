@@ -2,6 +2,8 @@ import tkinter as tk
 from ui.pages.log_progress import LogProgressPage
 from ui.pages.task_setup import TaskSetupPage
 from ui.pages.progress_overview import ProgressOverviewPage
+from ui.pages.dictionary import DictionaryPage
+from ui.pages.wordbook import WordbookPage
 
 class App(tk.Tk):
     def __init__(self):
@@ -18,7 +20,7 @@ class App(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (LogProgressPage, TaskSetupPage, ProgressOverviewPage):
+        for F in (LogProgressPage, TaskSetupPage, ProgressOverviewPage, DictionaryPage, WordbookPage):
             page_name = F.__name__
             frame = F(container, self)
             self.frames[page_name] = frame

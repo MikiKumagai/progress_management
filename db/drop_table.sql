@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS wordbook_entry;
+DROP TABLE IF EXISTS wordbook;
 DROP TABLE IF EXISTS progresses;
 DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS progress_types;

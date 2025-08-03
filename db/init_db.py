@@ -35,6 +35,19 @@ with open("db/progresses.csv", newline='', encoding="utf-8") as csvfile:
         cur.execute("INSERT INTO progresses (task_id, progress_value, progress_date) VALUES (?, ?, ?)", (
             int(row["task_id"]), int(row["progress_value"]), row["progress_date"]
         ))
+
+# wordbook_entry.csvから登録
+with open("db/wordbook_entry.csv", newline='', encoding="utf-8") as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        is_word_learned = row["is_word_learned"].strip().upper() == "TRUE"
+        is_meaning_learned = row["is_meaning_learned"].strip().upper() == "TRUE"
+        cur.execute("""
+            INSERT INTO wordbook_entry (wordbook_id, word, meaning, is_word_learned, is_meaning_learned, word_learned_at, meaning_learned_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            int(row["wordbook_id"]), row["word"], row["meaning"], is_word_learned, is_meaning_learned, row["word_learned_at"], row["meaning_learned_at"]
+        ))
         
 conn.commit()
 conn.close()

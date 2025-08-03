@@ -68,3 +68,11 @@ def select_task_for_chart(task_id):
     name, total_count = cur.fetchone() 
     conn.close()
     return name, total_count
+
+def select_for_export():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT name, progress_unit_id, progress_type_id, total_count, progress FROM tasks")
+    tasks = cur.fetchall() 
+    conn.close()
+    return tasks

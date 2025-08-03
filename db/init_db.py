@@ -16,10 +16,18 @@ with open("db/create_table.sql", "r", encoding="utf-8") as f:
     cur.executescript(create_table)
 
 # 初期データ登録
-with open("db/insert_init_data.sql", "r", encoding="utf-8") as f:
-    insert_init_data = f.read()
-    cur.executescript(insert_init_data)
+with open("db/insert_master_data.sql", "r", encoding="utf-8") as f:
+    insert_master_data = f.read()
+    cur.executescript(insert_master_data)
 
+# tasks.csvから登録
+with open("db/tasks.csv", newline='', encoding="utf-8") as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        cur.execute("INSERT INTO tasks (name,progress_unit_id,progress_type_id,total_count,progress) VALUES (?, ?, ?, ?, ?)", (
+            row["name"], int(row["progress_unit_id"]), int(row["progress_type_id"]), int(row["total_count"]), int(row["progress"])
+        ))
+        
 # progresses.csvから登録
 with open("db/progresses.csv", newline='', encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)

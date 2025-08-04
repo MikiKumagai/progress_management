@@ -26,3 +26,10 @@ def calculate_progress(progress, progress_value, progress_type):
     else:
         raise ValueError("不明な入力タイプ")
     return progress_total, progress_diff
+
+import math
+def get_rate(task_id):
+    progress, total_count = task_model.select_task_data(task_id)
+    rate = progress / total_count
+    return rate * 100 
+    

@@ -32,15 +32,27 @@ class ProgressOverviewPage(tk.Frame):
         self.task_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.task_combo.bind("<<ComboboxSelected>>", self.on_switch_task)
 
+        rate = progress_service.get_rate(self.selected_task_id)
+        formatted = f"{rate:.1f}%"
+        rate_label = ttk.Label(self, text="進度")
+        rate_label.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
+        self.rate_label = ttk.Label(self, text=formatted)
+        self.rate_label.grid(row=2, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
+
+        due_label = ttk.Label(self, text="完了予定")
+        due_label.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+        self.due_label = ttk.Label(self, text="未実装")
+        self.due_label.grid(row=3, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
+
         # グラフ
         fig = progress_chart.create_progress_chart(self.selected_task_id)
         self.canvas = FigureCanvasTkAgg(fig, master=self)
         self.canvas.draw()
-        self.canvas.get_tk_widget().grid(row=2, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
+        self.canvas.get_tk_widget().grid(row=4, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
-        nav_task_setup.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
         self.tasks = task_service.get_tasks()
@@ -58,6 +70,10 @@ class ProgressOverviewPage(tk.Frame):
             return
         self.task_combo.current(0)
         self.selected_task_id = self.tasks[0][0]
+        # 進度（率）を更新
+        rate = progress_service.get_rate(self.selected_task_id)
+        formatted = f"{rate:.1f}%"
+        self.rate_label.config(text=formatted)
     
     # 切り替え
     def on_switch_task(self, event):
@@ -68,3 +84,8 @@ class ProgressOverviewPage(tk.Frame):
         self.selected_task_id = self.tasks[selected_index][0]
         self.canvas.figure = progress_chart.create_progress_chart(self.selected_task_id)
         self.canvas.draw()
+        
+        # 進度（率）を更新
+        rate = progress_service.get_rate(self.selected_task_id)
+        formatted = f"{rate:.1f}%"
+        self.rate_label.config(text=formatted)

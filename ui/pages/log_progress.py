@@ -55,6 +55,10 @@ class LogProgressPage(tk.Frame):
         nav_progress_overview = ttk.Button(self, text="進捗確認", command=lambda: controller.show_frame("ProgressOverviewPage"))
         nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
 
+        # 遷移ボタン
+        nav_dictionary = ttk.Button(self, text="辞書", command=lambda: controller.show_frame("DictionaryPage"))
+        nav_dictionary.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
+
         self.after(0, self.set_default_task)
 
     # データ取得共通メソッド

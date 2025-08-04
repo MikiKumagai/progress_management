@@ -51,8 +51,6 @@ class ProgressOverviewPage(tk.Frame):
             self.selected_task_id = self.tasks[0][0]
         else:
             self.task_combo.set("")
-            self.progress_unit.config(text="")
-            self.progress_type.config(text="")
 
     # 初期表示
     def set_default_task(self):

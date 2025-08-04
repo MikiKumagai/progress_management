@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from presentations import task_table, progress_chart
+from presentations import progress_chart
 from services import task_service, progress_service
 import matplotlib.pyplot as plt
 

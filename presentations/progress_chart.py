@@ -16,6 +16,17 @@ def create_progress_chart(task_id):
     # 今日の日付までにフィルタ
     today = pd.to_datetime(date.today())
     df = df[df["progress_date"] <= today]
+
+    # 今日のデータがあるかチェック
+    if not (df["progress_date"] == today).any():
+        new_row = {
+            "task_name": task_name,
+            "task_id": task_id,
+            "progress_value": 0,
+            "progress_date": today,
+        }
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+    
     # 累積を計算
     df = df.sort_values("progress_date")
     df["cumulative_progress"] = df["progress_value"].cumsum()

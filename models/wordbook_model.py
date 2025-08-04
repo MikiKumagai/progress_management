@@ -8,3 +8,14 @@ def select_wordbooks():
     cursor = conn.cursor()
     cursor.execute("SELECT id, name FROM wordbooks")
     return cursor.fetchall() 
+
+# 課題登録ページ：新規課題追加
+def insert_wordbook(name):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO wordbooks (name) VALUES (?)",
+        (name,)
+    )
+    conn.commit()
+    conn.close()

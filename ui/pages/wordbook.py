@@ -34,7 +34,11 @@ class WordbookPage(tk.Frame):
 
         # TODO: ランダムソート機能つける
         # TODO: 絞り込みが自由にできるようにする
-        # TODO: 答えを指定問題だけ確認できるようにする
+        # TODO: カラムの非表示ができるようにする
+        # TODO: 指定問題だけ答えを確認できるようにする
+        # TODO: 単語の追加ができるようにする
+        # TODO: 意味も単語もTRUEのやつの達成度を出して、進捗チャートにする（単語帳テーブルに進捗とトータルが要る）
+        # TODO: これも出力できるようにしなきゃ
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')

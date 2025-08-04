@@ -49,15 +49,23 @@ class LogProgressPage(tk.Frame):
 
         # 遷移ボタン
         nav_task_setup = ttk.Button(self, text="課題登録", command=lambda: controller.show_frame("TaskSetupPage"))
-        nav_task_setup.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=5, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_progress_overview = ttk.Button(self, text="進捗確認", command=lambda: controller.show_frame("ProgressOverviewPage"))
-        nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
+        nav_progress_overview.grid(row=6, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_dictionary = ttk.Button(self, text="辞書", command=lambda: controller.show_frame("DictionaryPage"))
-        nav_dictionary.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
+        nav_dictionary.grid(row=7, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
+        
+        # 遷移ボタン
+        nav_wordbook = ttk.Button(self, text="単語帳", command=lambda: controller.show_frame("WordbookPage"))
+        nav_wordbook.grid(row=8, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")   
+        
+        # 遷移ボタン
+        nav_wordbook_setup = ttk.Button(self, text="単語帳登録", command=lambda: controller.show_frame("WordbookSetupPage"))
+        nav_wordbook_setup.grid(row=9, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
         self.after(0, self.set_default_task)
 

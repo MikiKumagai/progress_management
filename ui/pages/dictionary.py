@@ -32,14 +32,14 @@ class DictionaryPage(tk.Frame):
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
+        # TODO: 検索機能、ランダムソート機能を付けたい
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')
-        self.word_tree['columns'] = ('word','meaning')
-        self.word_tree.column('word', anchor='w', width=50)
-        self.word_tree.column('meaning',anchor='w', width=150)
-        self.word_tree.heading('word', text='word',anchor='w')
-        self.word_tree.heading('meaning', text='meaning', anchor='w')
+        self.word_tree.column('word', anchor='w', width=40)
+        self.word_tree.column('meaning',anchor='w', width=160)
+        self.word_tree.heading('word', text='単語',anchor='w')
+        self.word_tree.heading('meaning', text='意味', anchor='w')
         self.word_tree.grid(row=2, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         self.on_switch_wordbook(None)

@@ -20,10 +20,17 @@ def select_all_wordbook_entries(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("""
-        SELECT word, meaning, is_word_learned, is_meaning_learned
+        SELECT word, meaning, is_word_learned, is_meaning_learned, id
         FROM wordbook_entries 
         WHERE task_id = ?
         """, (task_id,))
     wordbook_entries = cur.fetchall()
     conn.close()
     return wordbook_entries
+
+def update_wordbook_entry(id, meaning):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE wordbook_entries SET meaning = ? WHERE id = ?", (meaning, id))
+    conn.commit()
+    conn.close()

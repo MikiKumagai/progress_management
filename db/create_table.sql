@@ -35,13 +35,13 @@ CREATE TABLE progresses (
 );
 
 -- 5. 単語帳
-CREATE TABLE wordbook (
+CREATE TABLE wordbooks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
 
 -- 6. 各単語（単語帳の中身）
-CREATE TABLE wordbook_entry (
+CREATE TABLE wordbook_entries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     wordbook_id INTEGER NOT NULL,
     word TEXT NOT NULL,

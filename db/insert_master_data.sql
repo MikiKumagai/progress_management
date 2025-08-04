@@ -2,4 +2,4 @@ INSERT INTO progress_units (name) VALUES ("ページ"), ("問"), ("章"), ("セ�
 
 INSERT INTO progress_types (name) VALUES ("累計"), ("差分");
 
-INSERT INTO wordbook (name) VALUES ("G検定");
+INSERT INTO wordbooks (name) VALUES ("G検定");

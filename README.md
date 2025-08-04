@@ -11,6 +11,7 @@
 - jupyter
 - mglearn
 - tkinter
+- tksheet
 
 ## set up
 ``` bash

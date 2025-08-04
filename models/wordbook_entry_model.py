@@ -20,7 +20,7 @@ def select_all_wordbook_entries(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("""
-        SELECT word, meaning 
+        SELECT word, meaning, is_word_learned, is_meaning_learned
         FROM wordbook_entries 
         WHERE task_id = ?
         """, (task_id,))

@@ -8,5 +8,5 @@ def get_dictionary(task_id):
 
 def get_wordbook(task_id):
     raw_data = wordbook_entry_model.select_all_wordbook_entries(task_id)
-    df = pd.DataFrame(raw_data, columns=["word", "meaning"])
+    df = pd.DataFrame(raw_data, columns=["word", "meaning", "is_word_learned", "is_meaning_learned"])
     return df

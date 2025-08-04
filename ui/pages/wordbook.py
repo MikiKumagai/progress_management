@@ -4,6 +4,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from presentations import dictionary_table
 from services import wordbook_service
 import matplotlib.pyplot as plt
+from tksheet import Sheet
 
 class WordbookPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -24,17 +25,18 @@ class WordbookPage(tk.Frame):
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         # 課題コンボボックス
-        # TODO: チェックボックスでテーブル更新
-        # TODO: ランダムソート機能つける
-        # TODO: カラムの非表示ができるようにする（必要な行だけ表示）
-        # TODO: 指定問題だけ答えを確認できるようにする（Tooltipかなんか）
-        # TODO: 単語の編集機能
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
         self.wordbook_combo.current(0)
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
+        # TODO: wordとis_meaning_learned、meaningとis_word_learnedのテーブルにする
+        # TODO: チェックボックスでテーブル更新
+        # TODO: ランダムソート機能つける
+        # TODO: カラムの非表示ができるようにする（必要な行だけ表示）
+        # TODO: 指定問題だけ答えを確認できるようにする（Tooltipかなんか）
+        # TODO: 単語の編集機能
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')

@@ -32,8 +32,11 @@ class DictionaryPage(tk.Frame):
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
-        # TODO: 検索機能付ける
-        # TODO: 意味カラムが長いと切れるからどうにかする
+        # 検索
+        self.word_entry = ttk.Entry(self)
+        self.word_entry.grid(row=2, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
+        self.word_entry.bind("<KeyRelease>", self.on_search)
+
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')
@@ -41,13 +44,13 @@ class DictionaryPage(tk.Frame):
         self.word_tree.column('meaning',anchor='w', width=160)
         self.word_tree.heading('word', text='単語',anchor='w')
         self.word_tree.heading('meaning', text='意味', anchor='w')
-        self.word_tree.grid(row=2, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
+        self.word_tree.grid(row=3, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         self.on_switch_wordbook(None)
 
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
-        nav_task_setup.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
         self.wordbooks = wordbook_service.get_wordbooks()
@@ -76,6 +79,14 @@ class DictionaryPage(tk.Frame):
         for row in self.word_tree.get_children():
             self.word_tree.delete(row)
         # DataFrame取得して挿入
-        df = dictionary_table.get_wordbook_summary(self.selected_wordbook_id)
-        for _, row in df.iterrows():
+        self.df = dictionary_table.get_wordbook_summary(self.selected_wordbook_id)
+        for _, row in self.df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning']))
+
+    def on_search(self, event):
+        keyword = self.word_entry.get()
+        for row in self.word_tree.get_children():
+            self.word_tree.delete(row)
+        for _, row in self.df.iterrows():
+            if keyword.lower() in str(row['word']).lower():
+                self.word_tree.insert("", "end", values=(row['word'], row['meaning']))

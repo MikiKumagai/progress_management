@@ -32,7 +32,8 @@ class DictionaryPage(tk.Frame):
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
-        # TODO: 検索機能、ランダムソート機能を付けたい
+        # TODO: 検索機能付ける
+        # TODO: 意味カラムが長いと切れるからどうにかする
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')

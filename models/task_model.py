@@ -73,5 +73,12 @@ def select_for_export():
 def select_wordbooks():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name FROM tasks WHERE is_wordbook = True")
+    cursor.execute("SELECT id, name FROM tasks WHERE is_wordbook")
+    return cursor.fetchall() 
+
+# 単語帳ページ：単語帳のリストを取得
+def select_active_wordbooks():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name FROM tasks WHERE active AND is_wordbook")
     return cursor.fetchall() 

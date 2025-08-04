@@ -5,3 +5,8 @@ import sqlite3
 def get_wordbooks():
     wordbooks = task_model.select_wordbooks()
     return wordbooks
+
+# 辞書画面：単語帳のリスト
+def get_active_wordbooks():
+    wordbooks = task_model.select_active_wordbooks()
+    return wordbooks

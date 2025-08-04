@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from presentations import dictionary_table
-from services import wordbook_service, progress_service
+from services import wordbook_service
 import matplotlib.pyplot as plt
 
 class WordbookPage(tk.Frame):
@@ -20,11 +20,9 @@ class WordbookPage(tk.Frame):
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         # タスクの取得と選択
-        self.wordbooks = wordbook_service.get_wordbooks()
+        self.wordbooks = wordbook_service.get_active_wordbooks()
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
-        self.wordbooks = wordbook_service.get_wordbooks()
-        wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         # 課題コンボボックス
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
@@ -56,7 +54,7 @@ class WordbookPage(tk.Frame):
         nav_task_setup.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
-        self.wordbooks = wordbook_service.get_wordbooks()
+        self.wordbooks = wordbook_service.get_active_wordbooks()
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.wordbook_combo['values'] = wordbook_list
         if wordbook_list:
@@ -82,6 +80,6 @@ class WordbookPage(tk.Frame):
         for row in self.word_tree.get_children():
             self.word_tree.delete(row)
         # DataFrame取得して挿入
-        df = dictionary_table.get_wordbook_summary(self.selected_task_id)
+        df = dictionary_table.get_wordbook(self.selected_task_id)
         for _, row in df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning']))

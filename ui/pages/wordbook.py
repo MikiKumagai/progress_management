@@ -38,8 +38,8 @@ class WordbookPage(tk.Frame):
         # TODO: 指定問題だけ答えを確認できるようにする
         # TODO: 単語の追加ができるようにする
         # TODO: 意味も単語もTRUEのやつの達成度を出して、進捗チャートにする（単語帳テーブルに進捗とトータルが要る）
-        # TODO: これも出力できるようにしなきゃ
-        # TODO: 単語帳テーブルと課題テーブル統合したほうがいいかも？
+        # TODO: 単語も出力できるようにしなきゃ
+        # TODO: こっちは意味が未記入でも取得する（編集できるようにする）
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')

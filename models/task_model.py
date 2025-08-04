@@ -27,11 +27,18 @@ def update_task_completion(task_id):
     conn.commit()
     conn.close()
 
+# 進捗記録ページ：アクティブな課題のリストを取得
+def select_active_tasks():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name FROM tasks WHERE active AND is_wordbook = False")
+    return cursor.fetchall() 
+
 # 進捗記録ページ：課題のリストを取得
 def select_tasks():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name FROM tasks WHERE active AND is_wordbook = False")
+    cursor.execute("SELECT id, name FROM tasks WHERE is_wordbook = False")
     return cursor.fetchall() 
 
 # 課題登録ページ：新規課題追加

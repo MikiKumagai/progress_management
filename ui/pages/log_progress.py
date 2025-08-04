@@ -20,7 +20,7 @@ class LogProgressPage(tk.Frame):
         label = ttk.Label(self, text="課題選択")
         label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
-        self.tasks = task_service.get_tasks()
+        self.tasks = task_service.get_active_tasks()
         task_list = [task[1] for task in self.tasks]
         self.task_combo = ttk.Combobox(self, values=task_list, state="readonly")
         self.task_combo.current(0)
@@ -74,7 +74,7 @@ class LogProgressPage(tk.Frame):
 
     # 画面表示時の再取得
     def refresh(self):
-        self.tasks = task_service.get_tasks()
+        self.tasks = task_service.get_active_tasks()
         task_list = [task[1] for task in self.tasks]
         self.task_combo['values'] = task_list
         if task_list:

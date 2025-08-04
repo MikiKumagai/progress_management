@@ -24,9 +24,10 @@ with open("db/insert_master_data.sql", "r", encoding="utf-8") as f:
 with open("db/tasks.csv", newline='', encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
+        active = row["active"].strip().upper() == "TRUE"
         is_wordbook = row["is_wordbook"].strip().upper() == "TRUE"
-        cur.execute("INSERT INTO tasks (name,progress_unit_id,progress_type_id,total_count,progress,is_wordbook) VALUES (?, ?, ?, ?, ?, ?)", (
-            row["name"], int(row["progress_unit_id"]), int(row["progress_type_id"]), int(row["total_count"]), int(row["progress"]), is_wordbook
+        cur.execute("INSERT INTO tasks (name,progress_unit_id,progress_type_id,total_count,progress,active,is_wordbook) VALUES (?, ?, ?, ?, ?, ?, ?)", (
+            row["name"], int(row["progress_unit_id"]), int(row["progress_type_id"]), int(row["total_count"]), int(row["progress"]), active, is_wordbook
         ))
         
 # progresses.csvから登録

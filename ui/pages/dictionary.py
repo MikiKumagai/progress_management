@@ -33,8 +33,10 @@ class DictionaryPage(tk.Frame):
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
         # 検索
+        name_label = ttk.Label(self, text="単語検索")
+        name_label.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
         self.word_entry = ttk.Entry(self)
-        self.word_entry.grid(row=2, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
+        self.word_entry.grid(row=2, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")
         self.word_entry.bind("<KeyRelease>", self.on_search)
 
         # テーブル

@@ -8,7 +8,7 @@ progress_data = progress_model.select_for_export()
 # 2. CSVに書き出す
 with open("db/test_task.csv", mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['name','progress_unit_id','progress_type_id','total_count','progress'])
+    writer.writerow(['name','progress_unit_id','progress_type_id','total_count','progress','is_wordbook'])
     for row in task_data:
         writer.writerow(row)
 

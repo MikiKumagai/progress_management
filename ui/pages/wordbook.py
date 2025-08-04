@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from presentations import dictionary_table
-from services import wordbook_service, progress_service
+from services import wordbook_service
 import matplotlib.pyplot as plt
 
 class WordbookPage(tk.Frame):
@@ -20,21 +20,16 @@ class WordbookPage(tk.Frame):
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         # タスクの取得と選択
-        self.wordbooks = wordbook_service.get_wordbooks()
+        self.wordbooks = wordbook_service.get_active_wordbooks()
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
-        self.selected_wordbook_id = self.wordbooks[0][0] if self.wordbooks else None
-        self.wordbooks = wordbook_service.get_wordbooks()
-        wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
+        self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         # 課題コンボボックス
-        self.selected_wordbook_id = self.wordbooks[0][0] if self.wordbooks else None
+        self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
         self.wordbook_combo.current(0)
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
-        # TODO: ランダムソート機能つける
-        # TODO: 絞り込みが自由にできるようにする
-        # TODO: 答えを指定問題だけ確認できるようにする
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')
@@ -51,12 +46,12 @@ class WordbookPage(tk.Frame):
         nav_task_setup.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
-        self.wordbooks = wordbook_service.get_wordbooks()
+        self.wordbooks = wordbook_service.get_active_wordbooks()
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.wordbook_combo['values'] = wordbook_list
         if wordbook_list:
             self.wordbook_combo.current(0)
-            self.selected_wordbook_id = self.wordbooks[0][0]
+            self.selected_task_id = self.wordbooks[0][0]
         else:
             self.wordbook_combo.set("")
 
@@ -65,18 +60,18 @@ class WordbookPage(tk.Frame):
         if not self.wordbooks:
             return
         self.wordbook_combo.current(0)
-        self.selected_wordbook_id = self.wordbooks[0][0]
+        self.selected_task_id = self.wordbooks[0][0]
     
     # 切り替え
     def on_switch_wordbook(self, event):
         selected_index = self.wordbook_combo.current()
         if selected_index < 0:
             return
-        self.selected_wordbook_id = self.wordbooks[selected_index][0]
+        self.selected_task_id = self.wordbooks[selected_index][0]
         # テーブルの中身を一度クリア
         for row in self.word_tree.get_children():
             self.word_tree.delete(row)
         # DataFrame取得して挿入
-        df = dictionary_table.get_wordbook_summary(self.selected_wordbook_id)
+        df = dictionary_table.get_wordbook(self.selected_task_id)
         for _, row in df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning']))

@@ -20,7 +20,7 @@ class LogProgressPage(tk.Frame):
         label = ttk.Label(self, text="課題選択")
         label.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
 
-        self.tasks = task_service.get_tasks()
+        self.tasks = task_service.get_active_tasks()
         task_list = [task[1] for task in self.tasks]
         self.task_combo = ttk.Combobox(self, values=task_list, state="readonly")
         self.task_combo.current(0)
@@ -49,16 +49,20 @@ class LogProgressPage(tk.Frame):
 
         # 遷移ボタン
         nav_task_setup = ttk.Button(self, text="課題登録", command=lambda: controller.show_frame("TaskSetupPage"))
-        nav_task_setup.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=5, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_progress_overview = ttk.Button(self, text="進捗確認", command=lambda: controller.show_frame("ProgressOverviewPage"))
-        nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
+        nav_progress_overview.grid(row=6, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_dictionary = ttk.Button(self, text="辞書", command=lambda: controller.show_frame("DictionaryPage"))
-        nav_dictionary.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
-
+        nav_dictionary.grid(row=7, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
+        
+        # 遷移ボタン
+        nav_wordbook = ttk.Button(self, text="単語帳", command=lambda: controller.show_frame("WordbookPage"))
+        nav_wordbook.grid(row=8, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")   
+        
         self.after(0, self.set_default_task)
 
     # データ取得共通メソッド
@@ -70,7 +74,7 @@ class LogProgressPage(tk.Frame):
 
     # 画面表示時の再取得
     def refresh(self):
-        self.tasks = task_service.get_tasks()
+        self.tasks = task_service.get_active_tasks()
         task_list = [task[1] for task in self.tasks]
         self.task_combo['values'] = task_list
         if task_list:

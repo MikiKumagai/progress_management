@@ -63,10 +63,6 @@ class LogProgressPage(tk.Frame):
         nav_wordbook = ttk.Button(self, text="単語帳", command=lambda: controller.show_frame("WordbookPage"))
         nav_wordbook.grid(row=8, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")   
         
-        # 遷移ボタン
-        nav_wordbook_setup = ttk.Button(self, text="単語帳登録", command=lambda: controller.show_frame("WordbookSetupPage"))
-        nav_wordbook_setup.grid(row=9, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
-
         self.after(0, self.set_default_task)
 
     # データ取得共通メソッド

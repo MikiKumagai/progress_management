@@ -1,3 +1,4 @@
-name,progress_unit_id,progress_type_id,total_count,progress
-機械学習,1,1,361,306
-G検定,2,2,1636,533
+name,progress_unit_id,progress_type_id,total_count,progress,is_wordbook
+機械学習,1,1,361,306,FALSE
+G検定(アプリ作成以前分),2,2,533,533,FALSE
+G検定,2,2,1636,533,TRUE

@@ -24,8 +24,9 @@ with open("db/insert_master_data.sql", "r", encoding="utf-8") as f:
 with open("db/tasks.csv", newline='', encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        cur.execute("INSERT INTO tasks (name,progress_unit_id,progress_type_id,total_count,progress) VALUES (?, ?, ?, ?, ?)", (
-            row["name"], int(row["progress_unit_id"]), int(row["progress_type_id"]), int(row["total_count"]), int(row["progress"])
+        is_wordbook = row["is_wordbook"].strip().upper() == "TRUE"
+        cur.execute("INSERT INTO tasks (name,progress_unit_id,progress_type_id,total_count,progress,is_wordbook) VALUES (?, ?, ?, ?, ?, ?)", (
+            row["name"], int(row["progress_unit_id"]), int(row["progress_type_id"]), int(row["total_count"]), int(row["progress"]), is_wordbook
         ))
         
 # progresses.csvから登録
@@ -43,10 +44,10 @@ with open("db/wordbook_entries.csv", newline='', encoding="utf-8") as csvfile:
         is_word_learned = row["is_word_learned"].strip().upper() == "TRUE"
         is_meaning_learned = row["is_meaning_learned"].strip().upper() == "TRUE"
         cur.execute("""
-            INSERT INTO wordbook_entries (wordbook_id, word, meaning, is_word_learned, is_meaning_learned, word_learned_at, meaning_learned_at)
+            INSERT INTO wordbook_entries (task_id, word, meaning, is_word_learned, is_meaning_learned, word_learned_at, meaning_learned_at)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         """, (
-            int(row["wordbook_id"]), row["word"], row["meaning"], is_word_learned, is_meaning_learned, row["word_learned_at"], row["meaning_learned_at"]
+            int(row["task_id"]), row["word"], row["meaning"], is_word_learned, is_meaning_learned, row["word_learned_at"], row["meaning_learned_at"]
         ))
         
 conn.commit()

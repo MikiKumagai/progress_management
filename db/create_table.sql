@@ -19,6 +19,7 @@ CREATE TABLE tasks (
     total_count INTEGER NOT NULL,
     progress INTEGER NOT NULL DEFAULT 0,
     active BOOLEAN NOT NULL DEFAULT TRUE,
+    is_wordbook BOOLEAN NOT NULL DEFAULT FALSE,
     created_at DATE NOT NULL DEFAULT (DATE('now')),
     FOREIGN KEY (progress_unit_id) REFERENCES progress_units (id),
     FOREIGN KEY (progress_type_id) REFERENCES progress_types (id)
@@ -34,21 +35,15 @@ CREATE TABLE progresses (
     CONSTRAINT unique_task_date UNIQUE (task_id, progress_date)
 );
 
--- 5. 単語帳
-CREATE TABLE wordbooks (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
-);
-
 -- 6. 各単語（単語帳の中身）
 CREATE TABLE wordbook_entries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    wordbook_id INTEGER NOT NULL,
+    task_id INTEGER NOT NULL,
     word TEXT NOT NULL,
-    meaning TEXT NOT NULL DEFAULT "未設定",
+    meaning TEXT,
     is_word_learned BOOLEAN NOT NULL DEFAULT FALSE,
     is_meaning_learned BOOLEAN NOT NULL DEFAULT FALSE,
     word_learned_at DATE,
     meaning_learned_at DATE,
-    FOREIGN KEY (wordbook_id) REFERENCES wordbook (id)
+    FOREIGN KEY (task_id) REFERENCES tasks (id)
 );

@@ -22,11 +22,11 @@ class DictionaryPage(tk.Frame):
         # タスクの取得と選択
         self.wordbooks = wordbook_service.get_wordbooks()
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
-        self.selected_wordbook_id = self.wordbooks[0][0] if self.wordbooks else None
+        self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbooks = wordbook_service.get_wordbooks()
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         # 課題コンボボックス
-        self.selected_wordbook_id = self.wordbooks[0][0] if self.wordbooks else None
+        self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
         self.wordbook_combo.current(0)
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
@@ -60,7 +60,7 @@ class DictionaryPage(tk.Frame):
         self.wordbook_combo['values'] = wordbook_list
         if wordbook_list:
             self.wordbook_combo.current(0)
-            self.selected_wordbook_id = self.wordbooks[0][0]
+            self.selected_task_id = self.wordbooks[0][0]
         else:
             self.wordbook_combo.set("")
 
@@ -69,19 +69,19 @@ class DictionaryPage(tk.Frame):
         if not self.wordbooks:
             return
         self.wordbook_combo.current(0)
-        self.selected_wordbook_id = self.wordbooks[0][0]
+        self.selected_task_id = self.wordbooks[0][0]
     
     # 切り替え
     def on_switch_wordbook(self, event):
         selected_index = self.wordbook_combo.current()
         if selected_index < 0:
             return
-        self.selected_wordbook_id = self.wordbooks[selected_index][0]
+        self.selected_task_id = self.wordbooks[selected_index][0]
         # テーブルの中身を一度クリア
         for row in self.word_tree.get_children():
             self.word_tree.delete(row)
         # DataFrame取得して挿入
-        self.df = dictionary_table.get_wordbook_summary(self.selected_wordbook_id)
+        self.df = dictionary_table.get_wordbook_summary(self.selected_task_id)
         for _, row in self.df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning']))
 

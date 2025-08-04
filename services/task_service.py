@@ -7,5 +7,5 @@ def get_tasks():
     return tasks
 
 # 課題登録画面：課題の追加
-def add_task(name, progress_unit_id, progress_type_id, total_count):
-    task_model.insert_task(name, progress_unit_id, progress_type_id, total_count)
+def add_task(name, progress_unit_id, progress_type_id, total_count, is_wordbook):
+    task_model.insert_task(name, progress_unit_id, progress_type_id, total_count, is_wordbook)

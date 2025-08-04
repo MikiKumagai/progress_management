@@ -16,7 +16,7 @@ class WordbookPage(tk.Frame):
             self.grid_rowconfigure(j, weight=0)
 
         # ページタイトル
-        title_label = ttk.Label(self, text="辞書", font=("Helvetica", 16))
+        title_label = ttk.Label(self, text="単語帳", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         # タスクの取得と選択
@@ -24,6 +24,11 @@ class WordbookPage(tk.Frame):
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         # 課題コンボボックス
+        # TODO: チェックボックスでテーブル更新
+        # TODO: ランダムソート機能つける
+        # TODO: カラムの非表示ができるようにする（必要な行だけ表示）
+        # TODO: 指定問題だけ答えを確認できるようにする（Tooltipかなんか）
+        # TODO: 単語の編集機能
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
         self.wordbook_combo.current(0)

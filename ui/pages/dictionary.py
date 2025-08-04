@@ -33,6 +33,16 @@ class DictionaryPage(tk.Frame):
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
         # テーブル
+        self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
+        self.word_tree['columns'] = ('word', 'meaning')
+        self.word_tree['columns'] = ('word','meaning')
+        self.word_tree.column('word', anchor='w', width=50)
+        self.word_tree.column('meaning',anchor='w', width=150)
+        self.word_tree.heading('word', text='word',anchor='w')
+        self.word_tree.heading('meaning', text='meaning', anchor='w')
+        self.word_tree.grid(row=2, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
+
+        self.on_switch_wordbook(None)
 
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
@@ -60,6 +70,12 @@ class DictionaryPage(tk.Frame):
         selected_index = self.wordbook_combo.current()
         if selected_index < 0:
             return
-        # グラフを更新
         self.selected_wordbook_id = self.wordbooks[selected_index][0]
-        # self.word_tree = dictionary_table.get_wordbook_summary(self.selected_wordbook_id)
+        # テーブルの中身を一度クリア
+        for row in self.word_tree.get_children():
+            self.word_tree.delete(row)
+        # DataFrame取得して挿入
+        df = dictionary_table.get_wordbook_summary(self.selected_wordbook_id)
+        print(df)
+        for _, row in df.iterrows():
+            self.word_tree.insert('', 'end', values=(row['word'], row['meaning']))

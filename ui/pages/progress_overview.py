@@ -51,7 +51,7 @@ class ProgressOverviewPage(tk.Frame):
         self.canvas.get_tk_widget().grid(row=4, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         # ページ遷移ボタン
-        nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
+        nav_task_setup = ttk.Button(self, text="TOP", command=lambda: controller.show_frame("LogProgressPage"))
         nav_task_setup.grid(row=5, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):

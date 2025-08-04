@@ -13,7 +13,7 @@ class LogProgressPage(tk.Frame):
             self.grid_rowconfigure(j, weight=0)
 
         # ページタイトル
-        title_label = ttk.Label(self, text="進捗記録", font=("Helvetica", 16))
+        title_label = ttk.Label(self, text="TOP", font=("Helvetica", 16))
         title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=10, sticky="nsew")
 
         # 課題
@@ -60,7 +60,7 @@ class LogProgressPage(tk.Frame):
         nav_dictionary.grid(row=7, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
         
         # 遷移ボタン
-        nav_wordbook = ttk.Button(self, text="単語帳", command=lambda: controller.show_frame("WordbookEditPage"))
+        nav_wordbook = ttk.Button(self, text="単語帳", command=lambda: controller.show_frame("WordbookMeaningPage"))
         nav_wordbook.grid(row=8, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")   
         
         self.after(0, self.set_default_task)

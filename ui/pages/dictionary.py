@@ -51,7 +51,7 @@ class DictionaryPage(tk.Frame):
         self.on_switch_wordbook(None)
 
         # ページ遷移ボタン
-        nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
+        nav_task_setup = ttk.Button(self, text="TOP", command=lambda: controller.show_frame("LogProgressPage"))
         nav_task_setup.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):

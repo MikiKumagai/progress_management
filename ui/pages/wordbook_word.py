@@ -25,7 +25,6 @@ class WordbookWordPage(tk.Frame):
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         # 課題コンボボックス
-        self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
         self.wordbook_combo.current(0)
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
@@ -35,7 +34,6 @@ class WordbookWordPage(tk.Frame):
         learn_btn = ttk.Button(self, text="学習切替", command=lambda: controller.show_frame("WordbookMeaningPage"))
         learn_btn.grid(row=2, column=5, padx=5, pady=5, sticky='nsew')
 
-        # TODO: 習済み列は1をDoneとかにする0は空
         self.word_tree = ttk.Treeview(self, columns=('word', 'meaning', 'is_word_learned', 'is_meaning_learned'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning', 'is_word_learned', 'is_meaning_learned')
         self.word_tree.column('word', anchor='w', width=40)
@@ -56,9 +54,13 @@ class WordbookWordPage(tk.Frame):
 
         self.selected_iid = None
 
+        # 遷移ボタン
+        nav_progress_overview = ttk.Button(self, text="TOP", command=lambda: controller.show_frame("LogProgressPage"))
+        nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
+
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="編集", command=lambda: controller.show_frame("WordbookEditPage"))
-        nav_task_setup.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=6, column=5, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
         self.wordbooks = wordbook_service.get_active_wordbooks()

@@ -76,6 +76,5 @@ class DictionaryPage(tk.Frame):
             self.word_tree.delete(row)
         # DataFrame取得して挿入
         df = dictionary_table.get_wordbook_summary(self.selected_wordbook_id)
-        print(df)
         for _, row in df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning']))

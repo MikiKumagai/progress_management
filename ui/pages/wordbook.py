@@ -31,11 +31,11 @@ class WordbookPage(tk.Frame):
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
-        # TODO: wordとis_meaning_learned、meaningとis_word_learnedのテーブルにする
-        # TODO: チェックボックスでテーブル更新
-        # TODO: ランダムソート機能つける
+        # TODO: チェックボックスで学習済みカラム更新
+        # TODO: ランダムソートボタン ｰ> ランダム取得機能つける
         # TODO: カラムの非表示ができるようにする（必要な行だけ表示）
-        # TODO: 指定問題だけ答えを確認できるようにする（Tooltipかなんか）
+        # 単語を選択したら意味列と学習済み単語が0の行が表示される
+        # 意味を選択したら単語列と学習済み意味が0の行が表示される
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'meaning', 'is_word_learned', 'is_meaning_learned'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning', 'is_word_learned', 'is_meaning_learned')
@@ -96,6 +96,7 @@ class WordbookPage(tk.Frame):
         for _, row in df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning'], row['is_word_learned'], row['is_meaning_learned'], int(row['id'])))
 
+    # リストで選択
     def on_select(self, event):
         selected = self.word_tree.selection()
         if not selected:
@@ -106,20 +107,19 @@ class WordbookPage(tk.Frame):
         self.edit_meaning.delete(0, tk.END)
         self.edit_meaning.insert(0, values[1])
 
+    # meaningの更新
     def on_update(self):
         if self.selected_iid is None:
             return
 
-        # 現在の値を取得
         current_values = self.word_tree.item(self.selected_iid, 'values')
         word_text = current_values[0]
         is_word_learned = current_values[2]
         is_meaning_learned = current_values[3]
-        
+
         new_meaning = self.edit_meaning.get()
         wordbook_service.update_wordbook(current_values[4], new_meaning)
         
-        # 更新して再セット
         self.word_tree.item(
             self.selected_iid,
             values=(word_text, new_meaning, is_word_learned, is_meaning_learned)

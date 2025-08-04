@@ -30,14 +30,6 @@ class WordbookPage(tk.Frame):
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
-        # TODO: ランダムソート機能つける
-        # TODO: 絞り込みが自由にできるようにする
-        # TODO: カラムの非表示ができるようにする
-        # TODO: 指定問題だけ答えを確認できるようにする
-        # TODO: 単語の追加ができるようにする
-        # TODO: 意味も単語もTRUEのやつの達成度を出して、進捗チャートにする（単語帳テーブルに進捗とトータルが要る）
-        # TODO: 単語も出力できるようにしなきゃ
-        # TODO: こっちは意味が未記入でも取得する（編集できるようにする）
         # テーブル
         self.word_tree = ttk.Treeview(self, columns=('word', 'mean'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning')

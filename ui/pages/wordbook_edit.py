@@ -31,15 +31,14 @@ class WordbookEditPage(tk.Frame):
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
-        # TODO: 学習済み列は1をDoneとかにする0は空
         self.word_tree = ttk.Treeview(self, columns=('word', 'meaning', 'is_word_learned', 'is_meaning_learned'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning', 'is_word_learned', 'is_meaning_learned')
-        self.word_tree.column('word', anchor='w', width=40)
-        self.word_tree.column('meaning',anchor='w', width=200)
-        self.word_tree.column('is_word_learned',anchor='w', width=5)
-        self.word_tree.column('is_meaning_learned',anchor='w', width=5)
-        self.word_tree.heading('word', text='単語',anchor='w')
-        self.word_tree.heading('meaning', text='意味', anchor='w')
+        self.word_tree.column('word', anchor='w', width=150)
+        self.word_tree.column('meaning',anchor='w', width=350)
+        self.word_tree.column('is_word_learned',anchor='center', width=30)
+        self.word_tree.column('is_meaning_learned',anchor='center', width=30)
+        self.word_tree.heading('word', text='単語',anchor='center')
+        self.word_tree.heading('meaning', text='意味', anchor='center')
         self.word_tree.heading('is_word_learned', text='単語', anchor='center')
         self.word_tree.heading('is_meaning_learned', text='意味', anchor='center')
         self.word_tree.grid(row=3, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
@@ -88,7 +87,15 @@ class WordbookEditPage(tk.Frame):
             self.word_tree.delete(row)
         df = wordbook_table.get_wordbook(self.selected_task_id)
         for _, row in df.iterrows():
-            self.word_tree.insert('', 'end', values=(row['word'], row['meaning'], row['is_word_learned'], row['is_meaning_learned'], int(row['id'])))
+            if row['is_word_learned']==1:
+                is_word_learned = "✓"
+            else:
+                is_word_learned = ""
+            if row['is_meaning_learned']==1:
+                is_meaning_learned = "✓"
+            else:
+                is_meaning_learned = ""
+            self.word_tree.insert('', 'end', values=(row['word'], row['meaning'], is_word_learned, is_meaning_learned, int(row['id'])))
 
     # リストで選択
     def on_select(self, event):

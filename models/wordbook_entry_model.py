@@ -107,3 +107,36 @@ def select_for_export():
     wordbook_entries = cur.fetchall() 
     conn.close()
     return wordbook_entries
+
+def select_task_id(id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+    SELECT task_id 
+    FROM wordbook_entries 
+    WHERE id = ? 
+      AND is_word_learned = True
+      AND is_meaning_learned = True
+      """, (id,))
+    task_id = cur.fetchone()
+    conn.close()
+    return task_id
+
+def select_wordbook_progresses_for_chart(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT 
+        t.name, 
+        task_id, 
+        word_learned_at, 
+        meaning_learned_at 
+        FROM wordbook_entries we
+        INNER JOIN tasks t ON we.task_id = t.id
+        WHERE t.id = ? 
+        AND is_word_learned = True
+        AND is_meaning_learned = True
+        """, (task_id,))
+    wordbook_entries = cur.fetchall() 
+    conn.close()
+    return wordbook_entries

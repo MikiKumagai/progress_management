@@ -38,7 +38,7 @@ def select_active_tasks():
 def select_tasks():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name FROM tasks WHERE is_wordbook = False")
+    cursor.execute("SELECT id, name FROM tasks")
     return cursor.fetchall() 
 
 # 課題登録ページ：新規課題追加
@@ -83,9 +83,25 @@ def select_active_wordbooks():
     cursor.execute("SELECT id, name FROM tasks WHERE active AND is_wordbook")
     return cursor.fetchall() 
 
+# 単語帳編集画面：単語の追加によるゴールの+1
 def update_total_count(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("UPDATE tasks SET total_count = total_count + 1 WHERE id = ?", (task_id,))
     conn.commit()
     conn.close()
+
+# 単語帳画面：学習済みによる進捗の+1
+def update_progress(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE tasks SET progress = progress + 1 WHERE id = ?", (task_id,))
+    conn.commit()
+    conn.close()
+
+# 進捗確認ページ：単語帳かどうか
+def select_is_wordbook(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("SELECT is_wordbook FROM tasks WHERE id = ?", (task_id,))
+    return cur.fetchone() 

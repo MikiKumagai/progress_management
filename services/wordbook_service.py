@@ -18,10 +18,18 @@ def update_wordbook(id, meaning):
 # 単語学習画面：学習済み
 def check_word(id, is_word_learned):
     wordbook_entry_model.update_is_word_learned(id, is_word_learned)
+    is_learned_progress(id)
 
 # 意味学習画面：学習済み
 def check_meaning(id, is_meaning_learned):
     wordbook_entry_model.update_is_meaning_learned(id, is_meaning_learned)
+    is_learned_progress(id)
+
+# 2つ完了してたらtaskのprogressも更新
+def is_learned_progress(id):
+    task_id = wordbook_entry_model.select_task_id(id)
+    if task_id:
+        task_model.update_progress(task_id[0])
 
 # 単語帳編集画面：単語の追加
 def registry_word(task_id, word, meaning):

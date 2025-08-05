@@ -45,7 +45,7 @@ class ProgressOverviewPage(tk.Frame):
         self.due_label.grid(row=3, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
 
         # グラフ
-        fig = progress_chart.create_progress_chart(self.selected_task_id)
+        fig = task_service.get_progress_chart(self.selected_task_id)
         self.canvas = FigureCanvasTkAgg(fig, master=self)
         self.canvas.draw()
         self.canvas.get_tk_widget().grid(row=4, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
@@ -82,7 +82,7 @@ class ProgressOverviewPage(tk.Frame):
             return
         # グラフを更新
         self.selected_task_id = self.tasks[selected_index][0]
-        self.canvas.figure = progress_chart.create_progress_chart(self.selected_task_id)
+        self.canvas.figure = task_service.get_progress_chart(self.selected_task_id)
         self.canvas.draw()
         
         # 進度（率）を更新

@@ -10,3 +10,15 @@ def get_wordbooks():
 def get_active_wordbooks():
     wordbooks = task_model.select_active_wordbooks()
     return wordbooks
+
+# 単語帳編集画面：単語帳の更新
+def update_wordbook(id, meaning):
+    wordbook_entry_model.update_wordbook_entry(id, meaning)
+
+# 単語学習画面：学習済み
+def check_word(id, is_word_learned):
+    wordbook_entry_model.update_is_word_learned(id, is_word_learned)
+
+# 意味学習画面：学習済み
+def check_meaning(id, is_meaning_learned):
+    wordbook_entry_model.update_is_meaning_learned(id, is_meaning_learned)

@@ -62,7 +62,7 @@ class TaskSetupPage(tk.Frame):
         self.count_error_label.grid(row=7, column=0, columnspan=6, padx=5, pady=5, sticky="e")
 
         # 遷移ボタン
-        nav_log_progress = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
+        nav_log_progress = ttk.Button(self, text="TOP", command=lambda: controller.show_frame("LogProgressPage"))
         nav_log_progress.grid(row=8, column=0, padx=5, pady=5, sticky="nsew")
 
     def on_check(self):

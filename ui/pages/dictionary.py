@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from presentations import dictionary_table
+from presentations import wordbook_table
 from services import wordbook_service, progress_service
 import matplotlib.pyplot as plt
 
@@ -51,7 +51,7 @@ class DictionaryPage(tk.Frame):
         self.on_switch_wordbook(None)
 
         # ページ遷移ボタン
-        nav_task_setup = ttk.Button(self, text="進捗記録", command=lambda: controller.show_frame("LogProgressPage"))
+        nav_task_setup = ttk.Button(self, text="TOP", command=lambda: controller.show_frame("LogProgressPage"))
         nav_task_setup.grid(row=4, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
@@ -81,7 +81,7 @@ class DictionaryPage(tk.Frame):
         for row in self.word_tree.get_children():
             self.word_tree.delete(row)
         # DataFrame取得して挿入
-        self.df = dictionary_table.get_dictionary(self.selected_task_id)
+        self.df = wordbook_table.get_dictionary(self.selected_task_id)
         for _, row in self.df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning']))
 

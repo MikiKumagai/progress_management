@@ -60,7 +60,7 @@ class LogProgressPage(tk.Frame):
         nav_dictionary.grid(row=7, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")
         
         # 遷移ボタン
-        nav_wordbook = ttk.Button(self, text="単語帳", command=lambda: controller.show_frame("WordbookPage"))
+        nav_wordbook = ttk.Button(self, text="単語帳", command=lambda: controller.show_frame("WordbookMeaningPage"))
         nav_wordbook.grid(row=8, column=0, columnspan=2, padx=5, pady=5, sticky="nsew")   
         
         self.after(0, self.set_default_task)
@@ -74,7 +74,7 @@ class LogProgressPage(tk.Frame):
 
     # 画面表示時の再取得
     def refresh(self):
-        self.tasks = task_service.get_active_tasks()
+        self.tasks = task_service.get_tasks()
         task_list = [task[1] for task in self.tasks]
         self.task_combo['values'] = task_list
         if task_list:

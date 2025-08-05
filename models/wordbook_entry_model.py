@@ -20,10 +20,61 @@ def select_all_wordbook_entries(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("""
-        SELECT word, meaning 
+        SELECT word, meaning, is_word_learned, is_meaning_learned, id
         FROM wordbook_entries 
         WHERE task_id = ?
         """, (task_id,))
     wordbook_entries = cur.fetchall()
     conn.close()
     return wordbook_entries
+
+def select_for_learning_word(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT word, meaning, is_word_learned, id
+        FROM wordbook_entries 
+        WHERE task_id = ?
+        AND TRIM(meaning) <> ''
+        AND is_word_learned = False
+        ORDER BY random()
+        """, (task_id,))
+    wordbook_entries = cur.fetchall()
+    conn.close()
+    return wordbook_entries
+
+def select_for_learning_meaning(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT word, meaning, is_meaning_learned, id
+        FROM wordbook_entries 
+        WHERE task_id = ?
+        AND TRIM(meaning) <> ''
+        AND is_meaning_learned = False
+        ORDER BY random()
+        """, (task_id,))
+    wordbook_entries = cur.fetchall()
+    conn.close()
+    return wordbook_entries
+
+def update_wordbook_entry(id, meaning):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE wordbook_entries SET meaning = ? WHERE id = ?", (meaning, id))
+    conn.commit()
+    conn.close()
+
+def update_is_word_learned(id, is_word_learned):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE wordbook_entries SET is_word_learned = ? WHERE id = ?", (is_word_learned, id))
+    conn.commit()
+    conn.close()
+
+def update_is_meaning_learned(id, is_meaning_learned):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE wordbook_entries SET is_meaning_learned = ? WHERE id = ?", (is_meaning_learned, id))
+    conn.commit()
+    conn.close()

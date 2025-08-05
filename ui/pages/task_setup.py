@@ -81,21 +81,26 @@ class TaskSetupPage(tk.Frame):
 
     def on_submit(self):
         name = self.name.get()
+        if len(name) <= 0:
+            self.name_error_label.config(text="課題名は必須です")
+            return
         if len(name) >= 10:
             self.name_error_label.config(text="課題名は10文字未満で入力してください")
             return
         else:
             self.name_error_label.config(text="")  # エラー解除
-        selected_progress_unit = self.progress_unit.current()
-        progress_unit_id = self.progress_units[selected_progress_unit][0]
-        selected_progress_type = self.progress_type.current()
-        progress_type_id = self.progress_types[selected_progress_type][0]
-        is_wordbook = self.is_wordbook.get()
+        
         try:
             total_count = int(self.total_count.get())
         except ValueError:
             self.count_error_label.config(text="ゴールは数値を入力してください")
             return
+
+        selected_progress_unit = self.progress_unit.current()
+        progress_unit_id = self.progress_units[selected_progress_unit][0]
+        selected_progress_type = self.progress_type.current()
+        progress_type_id = self.progress_types[selected_progress_type][0]
+        is_wordbook = self.is_wordbook.get()
         task_service.add_task(name, progress_unit_id, progress_type_id, total_count, is_wordbook)
         self.name.delete(0, tk.END)
         self.progress_unit.current(0)

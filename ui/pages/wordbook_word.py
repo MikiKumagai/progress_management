@@ -103,9 +103,9 @@ class WordbookWordPage(tk.Frame):
         if self.selected_iid is None:
             return
         is_learned = self.is_word_learned.get()
-        wordbook_service.check_word(self.selected_iid, is_learned)
+        current_values = self.word_tree.item(self.selected_iid, 'values')
+        wordbook_service.check_word(current_values[3], is_learned)
         
         # Treeviewの該当行を更新
-        current_values = self.word_tree.item(self.selected_iid, 'values')
         new_values = (current_values[0], current_values[1], int(is_learned))
         self.word_tree.item(self.selected_iid, values=new_values)

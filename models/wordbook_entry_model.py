@@ -28,6 +28,36 @@ def select_all_wordbook_entries(task_id):
     conn.close()
     return wordbook_entries
 
+def select_for_learning_word(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT word, meaning, is_word_learned, id
+        FROM wordbook_entries 
+        WHERE task_id = ?
+        AND TRIM(meaning) <> ''
+        AND is_word_learned = False
+        ORDER BY random()
+        """, (task_id,))
+    wordbook_entries = cur.fetchall()
+    conn.close()
+    return wordbook_entries
+
+def select_for_learning_meaning(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT word, meaning, is_meaning_learned, id
+        FROM wordbook_entries 
+        WHERE task_id = ?
+        AND TRIM(meaning) <> ''
+        AND is_meaning_learned = False
+        ORDER BY random()
+        """, (task_id,))
+    wordbook_entries = cur.fetchall()
+    conn.close()
+    return wordbook_entries
+
 def update_wordbook_entry(id, meaning):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()

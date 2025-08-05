@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from presentations import dictionary_table
+from presentations import wordbook_table
 from services import wordbook_service
 import matplotlib.pyplot as plt
 from tksheet import Sheet
@@ -86,7 +86,7 @@ class WordbookEditPage(tk.Frame):
         self.selected_task_id = self.wordbooks[selected_index][0]
         for row in self.word_tree.get_children():
             self.word_tree.delete(row)
-        df = dictionary_table.get_wordbook(self.selected_task_id)
+        df = wordbook_table.get_wordbook(self.selected_task_id)
         for _, row in df.iterrows():
             self.word_tree.insert('', 'end', values=(row['word'], row['meaning'], row['is_word_learned'], row['is_meaning_learned'], int(row['id'])))
 

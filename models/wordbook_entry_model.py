@@ -87,3 +87,20 @@ def insert_record(task_id, word, meaning):
         """, (task_id, word, meaning))
     conn.commit()
     conn.close()
+
+def select_for_export():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT 
+            task_id, 
+            word, 
+            meaning, 
+            is_word_learned, 
+            is_meaning_learned, 
+            word_learned_at, 
+            meaning_learned_at 
+        FROM wordbook_entries""")
+    wordbook_entries = cur.fetchall() 
+    conn.close()
+    return wordbook_entries

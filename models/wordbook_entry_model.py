@@ -34,3 +34,17 @@ def update_wordbook_entry(id, meaning):
     cur.execute("UPDATE wordbook_entries SET meaning = ? WHERE id = ?", (meaning, id))
     conn.commit()
     conn.close()
+
+def update_is_word_learned(id, is_word_learned):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE wordbook_entries SET is_word_learned = ? WHERE id = ?", (is_word_learned, id))
+    conn.commit()
+    conn.close()
+
+def update_is_meaning_learned(id, is_meaning_learned):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE wordbook_entries SET is_meaning_learned = ? WHERE id = ?", (is_meaning_learned, id))
+    conn.commit()
+    conn.close()

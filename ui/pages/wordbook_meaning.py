@@ -105,4 +105,6 @@ class WordbookMeaningPage(tk.Frame):
 
     def on_check(self):
         # TODO: 更新
-        print("on_check")
+        current_values = self.word_tree.item(self.selected_iid, 'values')
+        print(current_values[3])
+        print(self.is_meaning_learned.get())

@@ -82,3 +82,10 @@ def select_active_wordbooks():
     cursor = conn.cursor()
     cursor.execute("SELECT id, name FROM tasks WHERE active AND is_wordbook")
     return cursor.fetchall() 
+
+def update_total_count(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE tasks SET total_count = total_count + 1 WHERE id = ?", (task_id,))
+    conn.commit()
+    conn.close()

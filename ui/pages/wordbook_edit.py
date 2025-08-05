@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from presentations import wordbook_table
-from services import wordbook_service
+from services import wordbook_service, task_service
 import matplotlib.pyplot as plt
 from tksheet import Sheet
 
@@ -25,7 +25,6 @@ class WordbookEditPage(tk.Frame):
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         # 課題コンボボックス
-        self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
         self.wordbook_combo.current(0)
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
@@ -142,11 +141,11 @@ class WordbookEditPage(tk.Frame):
         )
     
     def on_registry(self):
+        task_id = self.selected_task_id
         word = self.registry_word.get()
         meaning = self.registry_meaning.get()
-        # TODO: サービスクラス実装
-        # wordbook_service.registry_word(word, meaning)
-        # task_service.add_count()
+        wordbook_service.registry_word(task_id, word, meaning)
+        task_service.add_count(task_id)
         self.registry_word.delete(0, tk.END)
         self.registry_meaning.delete(0, tk.END)
     

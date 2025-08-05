@@ -78,3 +78,12 @@ def update_is_meaning_learned(id, is_meaning_learned):
     cur.execute("UPDATE wordbook_entries SET is_meaning_learned = ? WHERE id = ?", (is_meaning_learned, id))
     conn.commit()
     conn.close()
+
+def insert_record(task_id, word, meaning):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO wordbook_entries (task_id, word, meaning) VALUES(?,?,?)
+        """, (task_id, word, meaning))
+    conn.commit()
+    conn.close()

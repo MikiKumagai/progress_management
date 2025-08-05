@@ -408,4 +408,4 @@ task_id,word,meaning,is_word_learned,is_meaning_learned,word_learned_at,meaning_
 4,勾配ベース,,0,0,,
 4,宝くじ仮説,,0,0,,
 4,量子化,,0,0,,
-4,test,testtest,0,0,,
+4,test,testtest,1,1,2025-08-05,2025-08-05

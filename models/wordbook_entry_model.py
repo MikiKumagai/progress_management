@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import date
 
 DB_PATH = "db/progress.db"
 
@@ -68,14 +69,16 @@ def update_wordbook_entry(id, meaning):
 def update_is_word_learned(id, is_word_learned):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("UPDATE wordbook_entries SET is_word_learned = ? WHERE id = ?", (is_word_learned, id))
+    today = date.today().isoformat()
+    cur.execute("UPDATE wordbook_entries SET is_word_learned = ?, word_learned_at = ? WHERE id = ?", (is_word_learned, today, id))
     conn.commit()
     conn.close()
 
 def update_is_meaning_learned(id, is_meaning_learned):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("UPDATE wordbook_entries SET is_meaning_learned = ? WHERE id = ?", (is_meaning_learned, id))
+    today = date.today().isoformat()
+    cur.execute("UPDATE wordbook_entries SET is_meaning_learned = ?, meaning_learned_at = ? WHERE id = ?", (is_meaning_learned, today, id))
     conn.commit()
     conn.close()
 
@@ -87,3 +90,20 @@ def insert_record(task_id, word, meaning):
         """, (task_id, word, meaning))
     conn.commit()
     conn.close()
+
+def select_for_export():
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT 
+            task_id, 
+            word, 
+            meaning, 
+            is_word_learned, 
+            is_meaning_learned, 
+            word_learned_at, 
+            meaning_learned_at 
+        FROM wordbook_entries""")
+    wordbook_entries = cur.fetchall() 
+    conn.close()
+    return wordbook_entries

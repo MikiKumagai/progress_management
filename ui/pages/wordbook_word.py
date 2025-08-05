@@ -86,9 +86,7 @@ class WordbookWordPage(tk.Frame):
             self.word_tree.delete(row)
         df = dictionary_table.get_wordbook(self.selected_task_id)
         for _, row in df.iterrows():
-            self.word_tree.insert('', 'end', values=(
-                row['word'], row['meaning'], row['is_word_learned'], int(row['id'])
-                ))
+            self.word_tree.insert('', 'end', values=(row['word'], row['meaning'], row['is_word_learned'], int(row['id'])))
 
     # リストで選択
     def on_select(self, event):
@@ -104,6 +102,12 @@ class WordbookWordPage(tk.Frame):
         self.is_word_learned_check.config(text=f"{self.selected_meaning}")
 
     def on_check(self):
-        # TODO: 更新
+        if self.selected_iid is None:
+            return
+        is_learned = self.is_word_learned.get()
+        wordbook_service.check_word(self.selected_iid, is_learned)
+        
+        # Treeviewの該当行を更新
         current_values = self.word_tree.item(self.selected_iid, 'values')
-        wordbook_service.check_word(current_values[3], self.is_word_learned.get())
+        new_values = (current_values[0], current_values[1], int(is_learned))
+        self.word_tree.item(self.selected_iid, values=new_values)

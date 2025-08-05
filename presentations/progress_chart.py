@@ -1,5 +1,5 @@
 import pandas as pd
-from models import task_model, progress_model
+from models import task_model, progress_model, wordbook_entry_model
 import matplotlib.pyplot as plt
 from datetime import date
 from matplotlib.figure import Figure
@@ -11,7 +11,6 @@ def create_progress_chart(task_id):
     task_name, total_count = task_model.select_task_for_chart(task_id)
     # 必要な情報を整える
     df = pd.DataFrame(raw_data, columns=["task_name", "task_id", "progress_value", "progress_date"])
-    df = df[df["task_name"] == task_name].copy()
     df["progress_date"] = pd.to_datetime(df["progress_date"])
     today = pd.to_datetime(date.today())
     # 今日のデータがあるかチェック

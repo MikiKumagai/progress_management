@@ -44,13 +44,17 @@ def update_progress(task_id, progress_value):
 def select_progresses_for_chart(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("""SELECT 
+    cur.execute("""
+        SELECT 
         t.name, 
         p.task_id, 
         p.progress_value, 
         p.progress_date 
         FROM progresses p
-        INNER JOIN tasks t ON p.task_id = t.id""")
+        INNER JOIN tasks t ON p.task_id = t.id
+        WHERE t.id = ?
+        """,
+        (task_id,))
     progresses = cur.fetchall() 
     conn.close()
     return progresses

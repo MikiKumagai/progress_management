@@ -4,12 +4,8 @@
 
 - python3.5    
 - numpy
-- scipy
 - pandas
 - matplotlib
-- seaborn
-- jupyter
-- mglearn
 - tkinter
 
 ## set up

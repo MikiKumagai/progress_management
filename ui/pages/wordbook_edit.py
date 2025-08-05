@@ -56,8 +56,6 @@ class WordbookEditPage(tk.Frame):
         update_btn.grid(row=6, column=5, padx=5, pady=5, sticky='nsew')
         self.selected_iid = None
 
-        # TODO: ここかタイトル下あたりに単語追加機能（Entry2つと登録ボタン）
-        # TODO: tasksも更新する
         # 編集用Entry
         registry_word_label = ttk.Label(self, text="単語")
         registry_word_label.grid(row=7, column=0, columnspan=1, padx=5, pady=5, sticky='nsew')
@@ -144,6 +142,11 @@ class WordbookEditPage(tk.Frame):
         )
     
     def on_registry(self):
-        print(self.registry_word.get())
-        print(self.registry_meaning.get())
+        word = self.registry_word.get()
+        meaning = self.registry_meaning.get()
+        # TODO: サービスクラス実装
+        # wordbook_service.registry_word(word, meaning)
+        # task_service.add_count()
+        self.registry_word.delete(0, tk.END)
+        self.registry_meaning.delete(0, tk.END)
     

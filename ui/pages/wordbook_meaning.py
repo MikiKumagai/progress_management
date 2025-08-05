@@ -18,7 +18,11 @@ class WordbookMeaningPage(tk.Frame):
 
         # ページタイトル
         title_label = ttk.Label(self, text="意味学習", font=("Helvetica", 16))
-        title_label.grid(row=0, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
+        title_label.grid(row=0, column=0, columnspan=5, padx=5, pady=5, sticky="nsew")
+
+        # 画面切り替え（TODO: 課題IDを共有）
+        learn_btn = ttk.Button(self, text="学習切替", command=lambda: controller.show_frame("WordbookWordPage"))
+        learn_btn.grid(row=0, column=5, padx=5, pady=5, sticky='nsew')
 
         # タスクの取得と選択
         self.wordbooks = wordbook_service.get_active_wordbooks()
@@ -30,10 +34,7 @@ class WordbookMeaningPage(tk.Frame):
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
-        # TODO: 単語列 AND 意味列記入済みの行 AND 学習済み意味が0の行・意味学習済みチェックボックス
-        learn_btn = ttk.Button(self, text="学習切替", command=lambda: controller.show_frame("WordbookWordPage"))
-        learn_btn.grid(row=2, column=5, padx=5, pady=5, sticky='nsew')
-
+        # TODO: 単語列（意味列記入済みの行 AND 学習済み意味が0の行）
         self.word_tree = ttk.Treeview(self, columns=('word', 'meaning', 'is_word_learned', 'is_meaning_learned'), show="headings")
         self.word_tree['columns'] = ('word', 'meaning', 'is_word_learned', 'is_meaning_learned')
         self.word_tree.column('word', anchor='w', width=40)
@@ -48,17 +49,17 @@ class WordbookMeaningPage(tk.Frame):
         self.word_tree.bind('<<TreeviewSelect>>', self.on_select)
         self.on_switch_wordbook(None)
 
-        # 編集用Entry
-        self.selected_meaning = ttk.Label(self, text="")
-        self.selected_meaning.grid(row=4, column=0, columnspan=6, sticky='nsew')
-
+        # 意味学習済みチェックボックス
         self.selected_iid = None
+        self.is_meaning_learned = tk.BooleanVar()
+        self.is_meaning_learned_check = ttk.Checkbutton(self, text="", variable=self.is_meaning_learned, command=self.on_check)
+        self.is_meaning_learned_check.grid(row=4, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
 
         # 遷移ボタン
         nav_progress_overview = ttk.Button(self, text="TOP", command=lambda: controller.show_frame("LogProgressPage"))
         nav_progress_overview.grid(row=6, column=0, padx=5, pady=5, sticky="nsew")
 
-        # ページ遷移ボタン
+        # 遷移ボタン（TODO: 課題IDを共有）
         nav_task_setup = ttk.Button(self, text="編集", command=lambda: controller.show_frame("WordbookEditPage"))
         nav_task_setup.grid(row=6, column=5, padx=5, pady=5, sticky="nsew")
 
@@ -74,6 +75,7 @@ class WordbookMeaningPage(tk.Frame):
 
     # 初期表示
     def set_default_wordbook(self):
+        # TODO: ランダム取得
         if not self.wordbooks:
             return
         self.wordbook_combo.current(0)
@@ -81,6 +83,7 @@ class WordbookMeaningPage(tk.Frame):
     
     # 切り替え
     def on_switch_wordbook(self, event):
+        # TODO: ランダム取得
         selected_index = self.wordbook_combo.current()
         if selected_index < 0:
             return
@@ -95,13 +98,17 @@ class WordbookMeaningPage(tk.Frame):
 
     # リストで選択
     def on_select(self, event):
-        # TODO: ランダム取得
         selected = self.word_tree.selection()
         if not selected:
             return
         self.selected_iid = selected[0]
         values = self.word_tree.item(self.selected_iid, 'values')
-        self.selected_meaning.config(text=values[0])
+        self.selected_word = values[0]
+        # チェック状態も反映
+        is_checked = bool(int(values[3]))
+        self.is_meaning_learned.set(is_checked)
+        self.is_meaning_learned_check.config(text=f"{self.selected_word}")
 
-    def on_switch_mode(self):
-        print("on_switch_mode")
+    def on_check(self):
+        # TODO: 更新
+        print("on_check")

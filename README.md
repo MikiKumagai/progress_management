@@ -14,7 +14,7 @@
 
 ## set up
 ``` bash
-cd /Users/kmmk/Private/学習管理アプリ/progress_management/
+cd /Path/to/progress_management
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```

@@ -24,8 +24,8 @@ with open("db/insert_master_data.sql", "r", encoding="utf-8") as f:
 with open("db/tasks.csv", newline='', encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        active = row["active"].strip().upper() == "TRUE"
-        is_wordbook = row["is_wordbook"].strip().upper() == "TRUE"
+        active = bool(int(row["active"]))
+        is_wordbook = bool(int(row["is_wordbook"]))
         cur.execute("INSERT INTO tasks (name,progress_unit_id,progress_type_id,total_count,progress,active,is_wordbook) VALUES (?, ?, ?, ?, ?, ?, ?)", (
             row["name"], int(row["progress_unit_id"]), int(row["progress_type_id"]), int(row["total_count"]), int(row["progress"]), active, is_wordbook
         ))
@@ -42,8 +42,8 @@ with open("db/progresses.csv", newline='', encoding="utf-8") as csvfile:
 with open("db/wordbook_entries.csv", newline='', encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        is_word_learned = row["is_word_learned"].strip().upper() == "TRUE"
-        is_meaning_learned = row["is_meaning_learned"].strip().upper() == "TRUE"
+        is_word_learned = bool(int(row["is_word_learned"]))
+        is_meaning_learned = bool(int(row["is_meaning_learned"]))
         cur.execute("""
             INSERT INTO wordbook_entries (task_id, word, meaning, is_word_learned, is_meaning_learned, word_learned_at, meaning_learned_at)
             VALUES (?, ?, ?, ?, ?, ?, ?)

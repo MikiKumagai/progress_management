@@ -56,9 +56,26 @@ class WordbookEditPage(tk.Frame):
         update_btn.grid(row=6, column=5, padx=5, pady=5, sticky='nsew')
         self.selected_iid = None
 
+        # TODO: ここかタイトル下あたりに単語追加機能（Entry2つと登録ボタン）
+        # TODO: tasksも更新する
+        # 編集用Entry
+        registry_word_label = ttk.Label(self, text="単語")
+        registry_word_label.grid(row=7, column=0, columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.registry_word = ttk.Entry(self)
+        self.registry_word.grid(row=7, column=1, columnspan=5, padx=5, pady=5, sticky='nsew')
+
+        registry_meaning_label = ttk.Label(self, text="意味")
+        registry_meaning_label.grid(row=8, column=0, columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.registry_meaning = ttk.Entry(self)
+        self.registry_meaning.grid(row=8, column=1, columnspan=5, padx=5, pady=5, sticky='nsew')
+
+        # 登録ボタン
+        registry_btn = ttk.Button(self, text="登録", command=self.on_registry)
+        registry_btn.grid(row=9, column=5, padx=5, pady=5, sticky='nsew')
+
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="学習", command=lambda: controller.show_frame("WordbookMeaningPage"))
-        nav_task_setup.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=10, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
         self.wordbooks = wordbook_service.get_active_wordbooks()
@@ -125,4 +142,8 @@ class WordbookEditPage(tk.Frame):
             self.selected_iid,
             values=(word_text, new_meaning, is_word_learned, is_meaning_learned)
         )
+    
+    def on_registry(self):
+        print(self.registry_word.get())
+        print(self.registry_meaning.get())
     

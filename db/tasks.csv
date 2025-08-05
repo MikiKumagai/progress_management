@@ -1,5 +1,5 @@
 name,progress_unit_id,progress_type_id,total_count,progress,active,is_wordbook
-機械学習,1,1,361,306,TRUE,FALSE
-G検定(終了分進捗),2,2,533,533,FALSE,FALSE
-G検定(終了分単語),2,2,115,115,FALSE,TRUE
-G検定,2,2,294,0,TRUE,TRUE
+機械学習,1,1,361,306,1,0
+G検定(終了分進捗),2,2,533,533,0,0
+G検定(終了分単語),2,2,115,115,0,1
+G検定,2,2,295,6,1,1

@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from datetime import date
 from matplotlib.figure import Figure
 from matplotlib.dates import DayLocator, AutoDateLocator
+from datetime import timedelta
 
 def create_progress_chart(task_id):
     # データ取得
@@ -12,6 +13,15 @@ def create_progress_chart(task_id):
     # 必要な情報を整える
     df = pd.DataFrame(raw_data, columns=["task_name", "task_id", "progress_value", "progress_date"])
     df["progress_date"] = pd.to_datetime(df["progress_date"])
+
+    start_row = {
+        "task_name": task_name,
+        "task_id": task_id,
+        "progress_value": 0,
+        "progress_date": df["progress_date"].min() - timedelta(days=1),
+    }
+    df = pd.concat([pd.DataFrame([start_row]), df], ignore_index=True)
+
     today = pd.to_datetime(date.today())
     # 今日のデータがあるかチェック
     if not (df["progress_date"] == today).any():
@@ -47,6 +57,14 @@ def create_wordbook_progress_chart(task_id):
     df["progress_date"] = df[["word_learned_at", "meaning_learned_at"]].max(axis=1)
     
     grouped = df.groupby(["task_name", "task_id", "progress_date"]).size().reset_index(name="progress_value")
+
+    start_row = {
+        "task_name": task_name,
+        "task_id": task_id,
+        "progress_value": 0,
+        "progress_date": grouped["progress_date"].min() - timedelta(days=1),
+    }
+    grouped = pd.concat([pd.DataFrame([start_row]), grouped], ignore_index=True)
 
     today = pd.to_datetime(date.today())
     if not (grouped["progress_date"] == today).any():

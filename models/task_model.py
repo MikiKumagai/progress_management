@@ -53,10 +53,10 @@ def insert_task(name, progress_unit_id, progress_type_id, total_count, is_wordbo
     conn.close()
 
 # 進捗確認ページ：グラフ用データ取得
-def select_task_for_chart(task_id):
+def select_task_for_chart(id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("SELECT name, total_count FROM tasks WHERE id=?", (task_id,))
+    cur.execute("SELECT name, total_count FROM tasks WHERE id=?", (id,))
     name, total_count = cur.fetchone() 
     conn.close()
     return name, total_count
@@ -83,9 +83,18 @@ def select_active_wordbooks():
     cursor.execute("SELECT id, name FROM tasks WHERE active AND is_wordbook")
     return cursor.fetchall() 
 
-def update_total_count(task_id):
+# 単語帳編集画面：単語の追加によるゴールの+1
+def update_total_count(id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
-    cur.execute("UPDATE tasks SET total_count = total_count + 1 WHERE id = ?", (task_id,))
+    cur.execute("UPDATE tasks SET total_count = total_count + 1 WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+
+# 単語帳画面：学習済みによる進捗の+1
+def update_progress(id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("UPDATE tasks SET progress = progress + 1 WHERE id = ?", (id,))
     conn.commit()
     conn.close()

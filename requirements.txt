@@ -1,8 +1,4 @@
 numpy
-scipy
 pandas
 matplotlib
-seaborn
-jupyter
-mglearn
-tksheet
+tkinter

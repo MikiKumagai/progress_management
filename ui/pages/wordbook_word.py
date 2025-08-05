@@ -35,16 +35,10 @@ class WordbookWordPage(tk.Frame):
         self.wordbook_combo.bind("<<ComboboxSelected>>", self.on_switch_wordbook)
 
         # TODO: 学習切替ボタン：意味列（意味列記入済みの行 AND 学習済み単語が0の行）
-        self.word_tree = ttk.Treeview(self, columns=('word', 'meaning', 'is_word_learned', 'is_meaning_learned'), show="headings")
-        self.word_tree['columns'] = ('word', 'meaning', 'is_word_learned', 'is_meaning_learned')
-        self.word_tree.column('word', anchor='w', width=40)
+        self.word_tree = ttk.Treeview(self, columns=('word', 'meaning', 'is_word_learned'), show="headings")
+        self.word_tree['columns'] = ('meaning')
         self.word_tree.column('meaning',anchor='w', width=200)
-        self.word_tree.column('is_word_learned',anchor='w', width=5)
-        self.word_tree.column('is_meaning_learned',anchor='w', width=5)
-        self.word_tree.heading('word', text='単語',anchor='w')
         self.word_tree.heading('meaning', text='意味', anchor='w')
-        self.word_tree.heading('is_word_learned', text='単語', anchor='center')
-        self.word_tree.heading('is_meaning_learned', text='意味', anchor='center')
         self.word_tree.grid(row=3, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
         self.word_tree.bind('<<TreeviewSelect>>', self.on_select)
         self.on_switch_wordbook(None)
@@ -93,7 +87,7 @@ class WordbookWordPage(tk.Frame):
         df = dictionary_table.get_wordbook(self.selected_task_id)
         for _, row in df.iterrows():
             self.word_tree.insert('', 'end', values=(
-                row['word'], row['meaning'], row['is_word_learned'], row['is_meaning_learned'], int(row['id'])
+                row['word'], row['meaning'], row['is_word_learned'], int(row['id'])
                 ))
 
     # リストで選択
@@ -105,7 +99,7 @@ class WordbookWordPage(tk.Frame):
         values = self.word_tree.item(self.selected_iid, 'values')
         self.selected_meaning = values[1]
         # チェック状態も反映
-        is_checked = bool(int(values[3]))
+        is_checked = bool(int(values[2]))
         self.is_word_learned.set(is_checked)
         self.is_word_learned_check.config(text=f"{self.selected_meaning}")
 

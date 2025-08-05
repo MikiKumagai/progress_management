@@ -2,4 +2,4 @@ name,progress_unit_id,progress_type_id,total_count,progress,is_wordbook
 機械学習,1,1,361,306,0
 G検定(終了分進捗),2,2,533,533,0
 G検定(終了分単語),2,2,115,115,1
-G検定,2,2,295,0,1
+G検定,2,2,295,5,1

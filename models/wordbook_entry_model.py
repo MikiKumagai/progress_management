@@ -121,3 +121,22 @@ def select_task_id(id):
     task_id = cur.fetchone()
     conn.close()
     return task_id
+
+def select_wordbook_progresses_for_chart(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+    SELECT 
+    t.name, 
+    word, 
+    meaning, 
+    word_learned_at, 
+    meaning_learned_at 
+    FROM wordbook_entries 
+    WHERE id = ? 
+      AND is_word_learned = True
+      AND is_meaning_learned = True
+      """, (id,))
+    task_id = cur.fetchone()
+    conn.close()
+    return task_id

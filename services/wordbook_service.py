@@ -22,3 +22,7 @@ def check_word(id, is_word_learned):
 # 意味学習画面：学習済み
 def check_meaning(id, is_meaning_learned):
     wordbook_entry_model.update_is_meaning_learned(id, is_meaning_learned)
+
+# 単語帳編集画面：単語の追加
+def registry_word(task_id, word, meaning):
+    wordbook_entry_model.insert_record(task_id, word, meaning)

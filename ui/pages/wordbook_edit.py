@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from presentations import wordbook_table
-from services import wordbook_service
+from services import wordbook_service, task_service
 import matplotlib.pyplot as plt
 from tksheet import Sheet
 
@@ -25,7 +25,6 @@ class WordbookEditPage(tk.Frame):
         wordbook_list = [wordbook[1] for wordbook in self.wordbooks]
         self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         # 課題コンボボックス
-        self.selected_task_id = self.wordbooks[0][0] if self.wordbooks else None
         self.wordbook_combo = ttk.Combobox(self, values=wordbook_list, state="readonly")
         self.wordbook_combo.current(0)
         self.wordbook_combo.grid(row=1, column=0, columnspan=6, padx=5, pady=5, sticky="nsew")
@@ -56,9 +55,24 @@ class WordbookEditPage(tk.Frame):
         update_btn.grid(row=6, column=5, padx=5, pady=5, sticky='nsew')
         self.selected_iid = None
 
+        # 編集用Entry
+        registry_word_label = ttk.Label(self, text="単語")
+        registry_word_label.grid(row=7, column=0, columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.registry_word = ttk.Entry(self)
+        self.registry_word.grid(row=7, column=1, columnspan=5, padx=5, pady=5, sticky='nsew')
+
+        registry_meaning_label = ttk.Label(self, text="意味")
+        registry_meaning_label.grid(row=8, column=0, columnspan=1, padx=5, pady=5, sticky='nsew')
+        self.registry_meaning = ttk.Entry(self)
+        self.registry_meaning.grid(row=8, column=1, columnspan=5, padx=5, pady=5, sticky='nsew')
+
+        # 登録ボタン
+        registry_btn = ttk.Button(self, text="登録", command=self.on_registry)
+        registry_btn.grid(row=9, column=5, padx=5, pady=5, sticky='nsew')
+
         # ページ遷移ボタン
         nav_task_setup = ttk.Button(self, text="学習", command=lambda: controller.show_frame("WordbookMeaningPage"))
-        nav_task_setup.grid(row=7, column=0, padx=5, pady=5, sticky="nsew")
+        nav_task_setup.grid(row=10, column=0, padx=5, pady=5, sticky="nsew")
 
     def refresh(self):
         self.wordbooks = wordbook_service.get_active_wordbooks()
@@ -125,4 +139,13 @@ class WordbookEditPage(tk.Frame):
             self.selected_iid,
             values=(word_text, new_meaning, is_word_learned, is_meaning_learned)
         )
+    
+    def on_registry(self):
+        task_id = self.selected_task_id
+        word = self.registry_word.get()
+        meaning = self.registry_meaning.get()
+        wordbook_service.registry_word(task_id, word, meaning)
+        task_service.add_count(task_id)
+        self.registry_word.delete(0, tk.END)
+        self.registry_meaning.delete(0, tk.END)
     

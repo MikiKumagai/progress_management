@@ -4,18 +4,14 @@
 
 - python3.5    
 - numpy
-- scipy
 - pandas
 - matplotlib
-- seaborn
-- jupyter
-- mglearn
 - tkinter
 - tksheet
 
 ## set up
 ``` bash
-cd /Users/kmmk/Private/学習管理アプリ/progress_management/
+cd /Path/to/progress_management
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```

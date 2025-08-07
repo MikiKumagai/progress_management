@@ -3,3 +3,4 @@ name,progress_unit_id,progress_type_id,total_count,progress,active,is_wordbook
 G検定(終了分進捗),2,2,533,533,0,0
 G検定(終了分単語),2,2,115,115,0,1
 G検定,2,2,295,5,1,1
+フロント辞典,1,1,570,29,1,0

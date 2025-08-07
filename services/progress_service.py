@@ -5,7 +5,7 @@ def add_progress(task_id, progress_value, progress_type):
     progress, total_count = task_model.select_task_data(task_id)
     progress_total, progress_diff = calculate_progress(progress, progress_value, progress_type)
     # 進捗を登録
-    if progress_model.select_today_data(task_id) == 1:
+    if progress_model.select_today_data(task_id) is None:
         progress_model.insert_progress(task_id, progress_diff)
     else:
         progress_model.update_progress(task_id, progress_diff)

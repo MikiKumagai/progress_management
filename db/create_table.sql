@@ -41,8 +41,6 @@ CREATE TABLE wordbook_entries (
     task_id INTEGER NOT NULL,
     word TEXT NOT NULL,
     meaning TEXT,
-    is_word_learned BOOLEAN NOT NULL DEFAULT FALSE,
-    is_meaning_learned BOOLEAN NOT NULL DEFAULT FALSE,
     word_learned_at DATE,
     meaning_learned_at DATE,
     FOREIGN KEY (task_id) REFERENCES tasks (id)

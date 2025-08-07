@@ -4,7 +4,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from presentations import wordbook_table
 from services import wordbook_service
 import matplotlib.pyplot as plt
-from tksheet import Sheet
 
 class WordbookMeaningPage(tk.Frame):
     def __init__(self, parent, controller):

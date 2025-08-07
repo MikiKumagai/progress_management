@@ -193,7 +193,7 @@ task_id,word,meaning,is_word_learned,is_meaning_learned,word_learned_at,meaning_
 4,カルバック・ライブラー情報量,,0,0,,
 4,イェンゼン・シャノン情報量,,0,0,,
 4,変分オートエンコーダ,,0,0,,
-4,VAE,変分オートエンコーダのこと,1,0,2025-08-01,
+4,VAE,変分オートエンコーダのこと,1,1,2025-08-01,2025-08-07
 4,Adagrad,損失関数の最小に近づくにつれ、学習率を低下させることでSGDより効率的に最適化できる,1,0,2025-08-01,
 4,RMSprop,,0,0,,
 4,AdaBound,,0,0,,
@@ -297,7 +297,7 @@ task_id,word,meaning,is_word_learned,is_meaning_learned,word_learned_at,meaning_
 4,WaveNet,,0,0,,
 4,n-gram,,0,0,,
 4,Bag-of-Words,,0,0,,
-4,BoW,Bag-of-Wordsのこと,0,1,,
+4,BoW,Bag-of-Wordsのこと,1,1,2025-08-07,
 4,Bag-of-n-grams,,0,0,,
 4,ワンホットベクトル,,0,0,,
 4,TF-IDF,,0,0,,

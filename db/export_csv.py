@@ -21,6 +21,6 @@ with open("db/export_progresses.csv", mode='w', newline='', encoding='utf-8') as
 
 with open("db/export_wordbook_entries.csv", mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['task_id','word','meaning','is_word_learned','is_meaning_learned','word_learned_at','meaning_learned_at'])
+    writer.writerow(['task_id','word','meaning','word_learned_at','meaning_learned_at'])
     for row in wordbook_entry_data:
         writer.writerow(row)

@@ -74,7 +74,7 @@ class LogProgressPage(tk.Frame):
 
     # 画面表示時の再取得
     def refresh(self):
-        self.tasks = task_service.get_tasks()
+        self.tasks = task_service.get_active_tasks()
         task_list = [task[1] for task in self.tasks]
         self.task_combo['values'] = task_list
         if task_list:

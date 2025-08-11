@@ -42,13 +42,11 @@ with open("db/progresses.csv", newline='', encoding="utf-8") as csvfile:
 with open("db/wordbook_entries.csv", newline='', encoding="utf-8") as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
-        is_word_learned = bool(int(row["is_word_learned"]))
-        is_meaning_learned = bool(int(row["is_meaning_learned"]))
         cur.execute("""
-            INSERT INTO wordbook_entries (task_id, word, meaning, is_word_learned, is_meaning_learned, word_learned_at, meaning_learned_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO wordbook_entries (task_id, word, meaning, word_learned_at, meaning_learned_at)
+            VALUES (?, ?, ?, ?, ?)
         """, (
-            int(row["task_id"]), row["word"], row["meaning"], is_word_learned, is_meaning_learned, row["word_learned_at"], row["meaning_learned_at"]
+            int(row["task_id"]), row["word"], row["meaning"], row["word_learned_at"], row["meaning_learned_at"]
         ))
         
 conn.commit()

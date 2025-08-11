@@ -113,8 +113,6 @@ def select_for_export():
             task_id, 
             word, 
             meaning, 
-            CASE WHEN TRIM(word_learned_at) != '' THEN 1 ELSE 0 END as is_word_learned,
-            CASE WHEN TRIM(meaning_learned_at) != '' THEN 1 ELSE 0 END as is_meaning_learned,
             word_learned_at, 
             meaning_learned_at 
         FROM wordbook_entries""")

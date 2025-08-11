@@ -1,3 +1,0 @@
-([('management',
-   '/Users/kmmk/Private/学習管理アプリ/progress_management/dist/management',
-   'EXECUTABLE')],)

@@ -2,3 +2,13 @@ __pycache__/
 *.pyc
 start.sh
 build/
+
+# データベースファイル
+*.db
+db/progress.db
+
+# ログファイル
+log/
+
+# キャッシュファイル
+cache/

@@ -18,3 +18,25 @@
 - matplotlib
 - tkinter
 - tksheet
+
+## セットアップ
+
+### 1. 依存関係のインストール
+```bash
+pip install -r requirements.txt
+```
+
+### 2. データベースの初期化
+```bash
+python db/init_db.py
+```
+
+### 3. アプリケーションの起動
+```bash
+python ui/app.py
+```
+
+## データベースについて
+- `progress.db`は個人のデータが含まれるため、Git管理対象外です
+- 初回セットアップ時は`db/init_db.py`を実行してデータベースを作成してください
+- サンプルデータは`db/`ディレクトリのCSVファイルから読み込まれます

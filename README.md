@@ -51,7 +51,7 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python db/init_db.py
-python ui/app.py
+python -m ui.app
 ```
 
 `db/init_db.py` を実行すると、CSVファイルをもとに `db/progress.db` が作成されます。

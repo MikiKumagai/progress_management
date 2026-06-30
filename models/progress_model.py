@@ -59,7 +59,7 @@ def select_progresses_for_chart(task_id):
     conn.close()
     return progresses
 
-# 進捗確認ページ：完了予測
+# 進捗確認ページ：完了予測のデータ取得
 def select_progresses_for_predict(task_id):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
@@ -69,7 +69,7 @@ def select_progresses_for_predict(task_id):
         progress_value
         FROM progresses
         WHERE task_id = ?
-        ORDER BY progress_date;
+        ORDER BY progress_date
         """,
         (task_id,))
     progresses = cur.fetchall() 

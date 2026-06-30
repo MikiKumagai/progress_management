@@ -27,12 +27,14 @@ def calculate_progress(progress, progress_value, progress_type):
         raise ValueError("不明な入力タイプ")
     return progress_total, progress_diff
 
+# 進捗記録ページ：進捗率を算出
 import math
 def get_rate(task_id):
     progress, total_count = task_model.select_task_data(task_id)
     rate = progress / total_count
     return rate * 100 
 
+# 進捗記録ページ：完了日をLinearRegressionで予測
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from datetime import timedelta
@@ -48,7 +50,7 @@ def get_predict(task_id):
     start = dates.iloc[0]
     X = (dates - start).dt.days.to_numpy().reshape(-1, 1)
 
-    total = task_model.select_task_for_predict(task_id).total_count
+    total = task_model.select_task_for_predict(task_id)[0]
     y = (df["progress_value"] / total * 100).to_numpy()
 
     model = LinearRegression()

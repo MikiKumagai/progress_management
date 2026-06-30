@@ -12,3 +12,5 @@ log/
 
 # キャッシュファイル
 cache/
+
+.DS_Store

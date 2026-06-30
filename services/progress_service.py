@@ -27,9 +27,47 @@ def calculate_progress(progress, progress_value, progress_type):
         raise ValueError("不明な入力タイプ")
     return progress_total, progress_diff
 
+# 進捗記録ページ：進捗率を算出
 import math
 def get_rate(task_id):
     progress, total_count = task_model.select_task_data(task_id)
     rate = progress / total_count
     return rate * 100 
-    
+
+# 進捗記録ページ：完了日をLinearRegressionで予測
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from datetime import timedelta
+from datetime import date
+import numpy as np
+def get_predict(task_id):
+    # 進捗データを取得
+    raw_progress = progress_model.select_progresses_for_predict(task_id)
+    if not raw_progress:
+        return None
+    df = pd.DataFrame(raw_progress, columns=["progress_date", "progress_value"])
+
+    # TODO: 進捗率100パーだったらmaxの日を返す
+
+    # X：学習開始からの日数
+    dates = pd.to_datetime(df["progress_date"])
+    start = dates.iloc[0]
+    X = (dates - start).dt.days.to_numpy().reshape(-1, 1)  
+
+    # y：累積進捗率（%）
+    cumulative_sums = df["progress_value"].cumsum()
+    # TODO: progress_modelで一緒に取ってくる
+    total = task_model.select_task_for_predict(task_id)[0]
+    y = (cumulative_sums / total * 100).to_numpy()
+
+    model = LinearRegression()
+    model.fit(X, y)
+    a = model.coef_[0]
+    b = model.intercept_
+
+    # TODO: 最終更新〜今日の空白期間しか考慮できてないので要検討
+    finish_day = (100 - b) / a
+    finish_date = start + timedelta(days=round(finish_day))
+    blank_period = date.today() - dates.max().date()
+    return finish_date + blank_period
+

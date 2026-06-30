@@ -61,6 +61,21 @@ def select_task_for_chart(task_id):
     conn.close()
     return name, total_count
 
+# 進捗確認ページ：完了予測のデータ取得
+def select_task_for_predict(task_id):
+    conn = sqlite3.connect(DB_PATH)
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT
+        total_count
+        FROM tasks
+        WHERE id = ?
+        """,
+        (task_id,))
+    total_count = cur.fetchone() 
+    conn.close()
+    return total_count
+
 def select_for_export():
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()

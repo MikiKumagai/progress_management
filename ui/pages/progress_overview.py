@@ -1,9 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, Frame
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from presentations import progress_chart
 from services import task_service, progress_service
-import matplotlib.pyplot as plt
 
 class ProgressOverviewPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -39,10 +37,11 @@ class ProgressOverviewPage(tk.Frame):
         self.rate_label = ttk.Label(self, text=formatted)
         self.rate_label.grid(row=2, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
 
-        due_label = ttk.Label(self, text="完了予定")
-        due_label.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
-        self.due_label = ttk.Label(self, text="未実装")
-        self.due_label.grid(row=3, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
+        predict = progress_service.get_predict(self.selected_task_id)
+        predict_label = ttk.Label(self, text="完了予定")
+        predict_label.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
+        self.predict_label = ttk.Label(self, text=predict)
+        self.predict_label.grid(row=3, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
 
         # グラフ
         fig = task_service.get_progress_chart(self.selected_task_id)
@@ -74,6 +73,9 @@ class ProgressOverviewPage(tk.Frame):
         rate = progress_service.get_rate(self.selected_task_id)
         formatted = f"{rate:.1f}%"
         self.rate_label.config(text=formatted)
+
+        predict = progress_service.get_predict(self.selected_task_id)
+        self.predict_label.config(text=predict)
     
     # 切り替え
     def on_switch_task(self, event):
@@ -89,3 +91,6 @@ class ProgressOverviewPage(tk.Frame):
         rate = progress_service.get_rate(self.selected_task_id)
         formatted = f"{rate:.1f}%"
         self.rate_label.config(text=formatted)
+
+        predict = progress_service.get_predict(self.selected_task_id)
+        self.predict_label.config(text=predict)

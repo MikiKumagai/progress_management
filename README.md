@@ -20,4 +20,5 @@
 - pandas
 - matplotlib
 - tkinter
+- sklearn
 

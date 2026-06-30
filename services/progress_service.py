@@ -32,4 +32,31 @@ def get_rate(task_id):
     progress, total_count = task_model.select_task_data(task_id)
     rate = progress / total_count
     return rate * 100 
+
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from datetime import timedelta
+def get_predict(task_id):
+    raw_progress = progress_model.select_progresses_for_predict(task_id)
+    if not raw_progress:
+        return None
     
+    df = pd.DataFrame(raw_progress, columns=["progress_date", "progress_value"])
+    df["progress_date"] = pd.to_datetime(df["progress_date"])
+
+    dates = df["progress_date"]
+    start = dates.iloc[0]
+    X = (dates - start).dt.days.to_numpy().reshape(-1, 1)
+
+    total = task_model.select_task_for_predict(task_id).total_count
+    y = (df["progress_value"] / total * 100).to_numpy()
+
+    model = LinearRegression()
+    model.fit(X, y)
+    a = model.coef_[0]
+    b = model.intercept_
+
+    finish_day = (100 - b) / a
+    finish_date = start + timedelta(days=round(finish_day))
+    return finish_date
+

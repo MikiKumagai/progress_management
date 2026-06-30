@@ -39,9 +39,10 @@ class ProgressOverviewPage(tk.Frame):
         self.rate_label = ttk.Label(self, text=formatted)
         self.rate_label.grid(row=2, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
 
+        predict = progress_service.get_predict(self.selected_task_id)
         due_label = ttk.Label(self, text="完了予定")
         due_label.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
-        self.due_label = ttk.Label(self, text="未実装")
+        self.due_label = ttk.Label(self, text=predict)
         self.due_label.grid(row=3, column=1, columnspan=5, padx=5, pady=5, sticky="nsew")  
 
         # グラフ

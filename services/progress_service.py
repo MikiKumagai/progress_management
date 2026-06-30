@@ -47,17 +47,16 @@ def get_predict(task_id):
         return None
     df = pd.DataFrame(raw_progress, columns=["progress_date", "progress_value"])
 
+    # TODO: 進捗率100パーだったらmaxの日を返す
+
     # X：学習開始からの日数
-    df["progress_date"] = pd.to_datetime(df["progress_date"])
-    if df["progress_date"].max().date() != date.today():
-        last_value = df["progress_value"].iloc[-1]
-        df.loc[len(df)] = [pd.Timestamp.today().normalize(), last_value]
-    dates = df["progress_date"]
+    dates = pd.to_datetime(df["progress_date"])
     start = dates.iloc[0]
     X = (dates - start).dt.days.to_numpy().reshape(-1, 1)  
 
     # y：累積進捗率（%）
     cumulative_sums = df["progress_value"].cumsum()
+    # TODO: progress_modelで一緒に取ってくる
     total = task_model.select_task_for_predict(task_id)[0]
     y = (cumulative_sums / total * 100).to_numpy()
 
@@ -66,7 +65,9 @@ def get_predict(task_id):
     a = model.coef_[0]
     b = model.intercept_
 
+    # TODO: 最終更新〜今日の空白期間しか考慮できてないので要検討
     finish_day = (100 - b) / a
     finish_date = start + timedelta(days=round(finish_day))
-    return finish_date
+    blank_period = date.today() - dates.max().date()
+    return finish_date + blank_period
 

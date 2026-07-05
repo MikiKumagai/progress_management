@@ -38,7 +38,6 @@ def get_rate(task_id):
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from datetime import timedelta
-from datetime import date
 import numpy as np
 def get_predict(task_id):
     # 進捗データを取得
@@ -48,13 +47,9 @@ def get_predict(task_id):
     df = pd.DataFrame(raw_progress, columns=["progress_date", "progress_value"])
 
     # X：学習開始からの日数
-    df["progress_date"] = pd.to_datetime(df["progress_date"])
-    if df["progress_date"].max().date() != date.today():
-        last_value = df["progress_value"].iloc[-1]
-        df.loc[len(df)] = [pd.Timestamp.today().normalize(), last_value]
-    dates = df["progress_date"]
+    dates = pd.to_datetime(df["progress_date"])
     start = dates.iloc[0]
-    X = (dates - start).dt.days.to_numpy().reshape(-1, 1)  
+    X = (dates - start).dt.days.to_numpy().reshape(-1, 1)
 
     # y：累積進捗率（%）
     cumulative_sums = df["progress_value"].cumsum()

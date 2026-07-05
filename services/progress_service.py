@@ -54,6 +54,8 @@ def get_predict(task_id):
     # y：累積進捗率（%）
     cumulative_sums = df["progress_value"].cumsum()
     total = task_model.select_task_for_predict(task_id)[0]
+    if cumulative_sums.iloc[-1] == total:
+        return "完了済み"
     y = (cumulative_sums / total * 100).to_numpy()
 
     model = LinearRegression()

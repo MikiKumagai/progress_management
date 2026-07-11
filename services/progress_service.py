@@ -3,12 +3,12 @@ from models import task_model, progress_model
 # 進捗記録ページ：進捗記録
 def add_progress(task_id, progress_value, progress_type):
     progress, total_count = task_model.select_task_data(task_id)
-    progress_total, progress_diff = calculate_progress(progress, progress_value, progress_type)
+    progress_total = calculate_progress(progress, progress_value, progress_type)
     # 進捗を登録
     if progress_model.select_today_data(task_id) is None:
-        progress_model.insert_progress(task_id, progress_diff)
+        progress_model.insert_progress(task_id, progress_total)
     else:
-        progress_model.update_progress(task_id, progress_diff)
+        progress_model.update_progress(task_id, progress_total)
     # taskの進捗情報を更新
     task_model.update_task_progress(task_id, progress_total)
     # task完了しているかチェック
@@ -19,13 +19,11 @@ def add_progress(task_id, progress_value, progress_type):
 def calculate_progress(progress, progress_value, progress_type):
     if progress_type == "累計":
         progress_total = progress_value
-        progress_diff = progress_value - progress
     elif progress_type == "差分":
         progress_total = progress_value + progress
-        progress_diff = progress_value
     else:
         raise ValueError("不明な入力タイプ")
-    return progress_total, progress_diff
+    return progress_total
 
 # 進捗記録ページ：進捗率を算出
 import math
@@ -51,10 +49,10 @@ def get_predict(task_id):
     start = dates.iloc[0]
     X = (dates - start).dt.days.to_numpy().reshape(-1, 1)
 
-    # y：累積進捗率（%）
-    cumulative_sums = df["progress_value"].cumsum()
+    # y：累計進捗率（%）
+    cumulative_sums = df["progress_value"]
     total = task_model.select_task_for_predict(task_id)[0]
-    if cumulative_sums.iloc[-1] == total:
+    if cumulative_sums.iloc[-1] >= total:
         return "完了済み"
     y = (cumulative_sums / total * 100).to_numpy()
 
@@ -66,4 +64,3 @@ def get_predict(task_id):
     finish_day = (100 - b) / a
     finish_date = start + timedelta(days=round(finish_day))
     return finish_date
-

@@ -16,26 +16,26 @@ def select_today_data(task_id):
     conn.close()
     return today_update
 
-# 進捗記録ページ：進捗記録
-def insert_progress(task_id, progress_value):
+# 進捗記録ページ：進捗記録（その日の時点の累計）
+def insert_progress(task_id, total_progress):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     today = date.today().isoformat()
     cur.execute(
         "INSERT INTO progresses (task_id, progress_value, progress_date) VALUES (?, ?, ?)",
-        (task_id, progress_value, today)
+        (task_id, total_progress, today)
     )
     conn.commit()
     conn.close()
 
 # 進捗記録ページ：進捗更新（1日の2回目以降の場合）
-def update_progress(task_id, progress_value):
+def update_progress(task_id, total_progress):
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     today = date.today().isoformat()
     cur.execute(
-        "UPDATE progresses SET progress_value = progress_value + ? WHERE task_id = ? AND progress_date = ?", 
-        (progress_value, task_id, today)
+        "UPDATE progresses SET progress_value = ? WHERE task_id = ? AND progress_date = ?", 
+        (total_progress, task_id, today)
     )
     conn.commit()
     conn.close()

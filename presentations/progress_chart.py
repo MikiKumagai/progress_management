@@ -12,6 +12,15 @@ def create_progress_chart(task_id):
     task_name, total_count = task_model.select_task_for_chart(task_id)
     # 必要な情報を整える
     df = pd.DataFrame(raw_data, columns=["task_name", "task_id", "progress_value", "progress_date"])
+    if df.empty:
+        today = pd.to_datetime(date.today())
+        df = pd.DataFrame([{
+            "task_name": task_name,
+            "task_id": task_id,
+            "progress_value": 0,
+            "progress_date": today,
+        }])
+
     df["progress_date"] = pd.to_datetime(df["progress_date"])
 
     start_row = {
@@ -28,15 +37,14 @@ def create_progress_chart(task_id):
         new_row = {
             "task_name": task_name,
             "task_id": task_id,
-            "progress_value": 0,
+            "progress_value": df.sort_values("progress_date")["progress_value"].iloc[-1],
             "progress_date": today,
         }
         df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
     
-    # 累積を計算
+    # progress_value はその日時点の累計
     df = df.sort_values("progress_date")
-    df["cumulative_progress"] = df["progress_value"].cumsum()
-    df["remaining_value"] = total_count - df["cumulative_progress"]
+    df["remaining_value"] = total_count - df["progress_value"]
 
     fig = Figure(figsize=(6, 4), dpi=100)
     ax = fig.add_subplot(111)

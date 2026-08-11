@@ -47,3 +47,9 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python -m ui.app
 ```
+
+## データをCSVに出力
+
+```bash
+python3 -m db.export_csv
+```

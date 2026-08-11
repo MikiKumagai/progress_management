@@ -9,7 +9,7 @@ wordbook_entry_data = wordbook_entry_model.select_for_export()
 # 2. CSVに書き出す
 with open("db/export_tasks.csv", mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    writer.writerow(['name','progress_unit_id','progress_type_id','total_count','progress','active','is_wordbook'])
+    writer.writerow(['id','name','progress_unit_id','progress_type_id','total_count','progress','active','is_wordbook'])
     for row in task_data:
         writer.writerow(row)
 
